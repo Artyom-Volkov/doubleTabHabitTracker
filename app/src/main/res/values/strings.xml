@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Трекер привычек</string>
+    <string name="nav_header_title">Заголовок</string>
+    <string name="edit_to_habit">Редактировать привычку</string>
+    <string name="action_menu_item_main_activity">Главное</string>
+    <string name="action_menu_item_about_activity">О приложении</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <!--habit_card.xml-->
+    <string name="habit_type_title">Тип:</string>
+    <string name="habit_priority_title">Приоритет:</string>
+    <!---->
+
+    <!--fragment_habit_editing-->
+    <string name="habit_name_title">Название:</string>
+    <string name="habit_execution_number_title">Количество выполнения:</string>
+    <string name="habit_count_time_period_title">Периодичность\nвыполнения:</string>
+    <string name="habit_decription_title">Описание:</string>
+    <string name="save_habit">Сохранить привычку</string>
+    <!---->
+
+    <string name="open_drawer">open drawer</string>
+    <string name="close_drawer">close drawer</string>
+    <string name="usefull_habit">Полезная</string>
+    <string name="harmfull_habit">Вредная</string>
+    <string name="habit_freq_string_format">%s раз в %s %s</string>
+    <string-array name="HabitTypes">
+        <item>@string/usefull_habit</item>
+        <item>@string/harmfull_habit</item>
+    </string-array>
+
+    <string-array name="HabitFreqs">
+        <item>мин</item>
+        <item>час</item>
+        <item>дней</item>
+        <item>недель</item>
+        <item>месяцев</item>
+        <item>лет</item>
+    </string-array>
+    <string-array name="HabitPriorities">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+</resources>

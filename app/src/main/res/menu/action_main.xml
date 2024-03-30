@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigationView"
+    >
+
+    <item
+        android:id="@+id/navigation2"
+        android:title="@string/action_menu_item_main_activity" />
+    <item
+        android:id="@+id/aboutAplicationFragment"
+        android:title="@string/action_menu_item_about_activity" />
+</menu>
