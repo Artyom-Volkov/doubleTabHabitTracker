@@ -26,7 +26,7 @@ class HabitEditingFragment : Fragment() {
         fun newInstance(habit: Habit, position: Int): HabitEditingFragment {
             val fragment = HabitEditingFragment()
             val bundle = Bundle()
-            bundle.putParcelable(Habit::class.simpleName, habit)
+            //bundle.putParcelable(Habit::class.simpleName, habit)
             bundle.putInt(HABIT_POSITION, position)
             fragment.arguments = bundle
             return fragment
@@ -41,9 +41,12 @@ class HabitEditingFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            habit = it.getParcelable(Habit::class.simpleName)
-            position = it.getInt(HABIT_POSITION)
+        arguments?.let { args ->
+            position = args.getInt(HABIT_POSITION)
+            position?.let {
+                habit = HabitDatabase.getHabit(it)
+            }
+
         }
     }
 
@@ -126,8 +129,11 @@ class HabitEditingFragment : Fragment() {
         )
 
         if (this.habit != null){
-            if (position!= null)
-                habitEdited(habit, position!!, habit.type != this.habit!!.type)
+            position?.let { position ->
+                habitEdited(position, habit)
+            }
+            /*if (position!= null)
+                habitEdited(habit, position!!, habit.type != this.habit!!.type)*/
         }
         else{
             addNewHabit(habit)
@@ -136,13 +142,14 @@ class HabitEditingFragment : Fragment() {
 
     fun addNewHabit(habit: Habit){
 
-        habit.let {
+        /*habit.let {
             val habits = when (it.type) {
                 Habit.Type.HARMFULL -> HabitDatabase.harmfullHabits
                 else -> HabitDatabase.usefullHabits
             }
             habits.add(it)
-        }
+        }*/
+        HabitDatabase.add(habit)
 
         val habitListsFragment : HabitListsFragment? = parentFragmentManager.findFragmentByTag(HabitListsFragment.TAG) as HabitListsFragment?
 
@@ -151,29 +158,8 @@ class HabitEditingFragment : Fragment() {
 
     }
 
-    fun habitEdited(habit: Habit, position: Int, isNewHabitType: Boolean){
-
-        if (!isNewHabitType){
-            val habitType = habit.type
-            val habits = when(habitType) {
-                Habit.Type.USEFULL -> HabitDatabase.usefullHabits
-                Habit.Type.HARMFULL -> HabitDatabase.harmfullHabits
-            }
-            habits.set(position, habit)
-        }
-        else{
-            val habitNewType = habit.type
-            val habitsNewType = when(habitNewType) {
-                Habit.Type.USEFULL -> HabitDatabase.usefullHabits
-                Habit.Type.HARMFULL -> HabitDatabase.harmfullHabits
-            }
-            val habitsOldType = when(habitNewType) {
-                Habit.Type.USEFULL -> HabitDatabase.harmfullHabits
-                Habit.Type.HARMFULL -> HabitDatabase.usefullHabits
-            }
-            habitsOldType.removeAt(position)
-            habitsNewType.add(habit)
-        }
+    fun habitEdited(position: Int, habit: Habit){
+        HabitDatabase.replace(position, habit)
 
         val habitListsFragment : HabitListsFragment? = parentFragmentManager.findFragmentByTag(HabitListsFragment.TAG) as HabitListsFragment?
 

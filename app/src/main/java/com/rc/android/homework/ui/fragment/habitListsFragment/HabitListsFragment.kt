@@ -38,6 +38,13 @@ class HabitListsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
+        /*if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .replace(R.id.bottomSheetContainer, BottomSheetFragment.newInstance(), "")
+                .commit()
+        }*/
+
         return inflater.inflate(R.layout.fragment_habit_lists, container, false)
     }
 
@@ -46,6 +53,8 @@ class HabitListsFragment : Fragment() {
 
         habitListsFragmentAdapter = HabitListsFragmentAdapter(this)
         pager.adapter = habitListsFragmentAdapter
+
+        habitListsFragmentAdapter.notifyDataSetChanged()
 
         val tabNames: Array<String> = arrayOf(
             getString(R.string.usefull_habit),
@@ -57,6 +66,8 @@ class HabitListsFragment : Fragment() {
         }.attach()
 
         addHabitFAB.setOnClickListener { addHabitFABClicked() }
+
+
     }
 
     private fun addHabitFABClicked(){

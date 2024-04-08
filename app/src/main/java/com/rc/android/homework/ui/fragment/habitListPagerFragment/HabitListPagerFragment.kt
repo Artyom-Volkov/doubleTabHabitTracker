@@ -5,12 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rc.android.homework.Habit
 import com.rc.android.homework.HabitDatabase
 import com.rc.android.homework.R
 import com.rc.android.homework.ui.fragment.HabitEditingFragment
+import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment
+import com.rc.android.homework.ui.viewmodels.HabitListsViewModel
+import com.rc.android.homework.ui.viewmodels.HabitListsViewModelFactory
 import kotlinx.android.synthetic.main.fragment_habit_list_pager.*
 
 class HabitListPagerFragment : Fragment() {
@@ -27,6 +31,8 @@ class HabitListPagerFragment : Fragment() {
 
     }
 
+    private lateinit var viewModel: HabitListsViewModel
+
     private var habitType: Habit.Type? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +40,13 @@ class HabitListPagerFragment : Fragment() {
         arguments?.let{
             habitType = Habit.Type.values().get( it.getInt(HABIT_TYPE))
         }
+
+        val parentFragment = requireParentFragment()
+        if (parentFragment is HabitListsFragment) {
+            viewModel = ViewModelProvider(parentFragment, HabitListsViewModelFactory())
+                .get(HabitListsViewModel::class.java)
+        }
+
     }
 
     override fun onCreateView(
@@ -49,41 +62,22 @@ class HabitListPagerFragment : Fragment() {
 
         habitRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@HabitListPagerFragment.context)
-
-            val habits = when (habitType) {
-                Habit.Type.HARMFULL -> HabitDatabase.harmfullHabits
-                else -> HabitDatabase.usefullHabits
-            }
-
-            adapter = HabitAdapter(habits, ::onHabitClicked )
         }
-    }
 
-    override fun onStart() {
-        super.onStart()
-
-    }
-
-    override fun onStop() {
-        super.onStop()
+        viewModel.habitList.observe(viewLifecycleOwner) { list ->
+            val filterList = list.filter { it.type == habitType }.toMutableList()
+            habitRecyclerview.adapter = HabitAdapter(filterList, ::onHabitClicked)
+        }
 
     }
 
     private fun onHabitClicked(habitType: Habit.Type, position: Int){
 
-        habitType.let {
-            val habits = when(it) {
-                Habit.Type.USEFULL -> HabitDatabase.usefullHabits
-                Habit.Type.HARMFULL -> HabitDatabase.harmfullHabits
-            }
+        val databasePosition = HabitDatabase.getPosition(habitType, position)
 
-            val habit = habits.get(position)
-
-            val bundle = Bundle()
-            bundle.putParcelable(Habit::class.simpleName, habit)
-            bundle.putInt(HabitEditingFragment.HABIT_POSITION, position)
-            findNavController().navigate(R.id.action_habitListsFragment_to_habitEditingFragment, bundle)
-        }
+        val bundle = Bundle()
+        bundle.putInt(HabitEditingFragment.HABIT_POSITION, databasePosition)
+        findNavController().navigate(R.id.action_habitListsFragment_to_habitEditingFragment, bundle)
     }
 
 }

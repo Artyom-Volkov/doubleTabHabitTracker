@@ -7,28 +7,29 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.habitListsFragment.HabitListsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            app:tabIndicatorColor="@color/teal_200"
-            app:tabIndicatorHeight="4dp"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                app:tabIndicatorColor="@color/teal_200"
+                app:tabIndicatorHeight="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="pin" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tab_layout" />
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addHabitFAB"
@@ -38,11 +39,21 @@
             android:layout_marginBottom="10dp"
             android:clickable="true"
             app:fabSize="auto"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@android:drawable/ic_input_add"
-            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+            app:layout_anchor="@id/bottomSheetFragment"
+            app:layout_anchorGravity="top|end" />
+        
+        <fragment
+            android:id="@+id/bottomSheetFragment"
+            tools:layout="@layout/fragment_bottom_sheet"
+            android:name="com.rc.android.homework.ui.fragment.BottomSheetFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="44dp"
+            android:background="@drawable/curved_corners"
+            app:layout_behavior="@string/bottom_sheet_behavior"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout >
+    </androidx.coordinatorlayout.widget.CoordinatorLayout >
 
 </FrameLayout>

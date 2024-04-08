@@ -29,6 +29,11 @@
     <string name="save_habit">Сохранить привычку</string>
     <!---->
 
+    <!--fragment_bottom_sheet-->
+    <string name="fragment_bottom_sheet_title">Фильтры и сортировки</string>
+    <string name="fragment_bottom_sheet_search_hint">Поиск…</string>
+    <!---->
+
     <string name="open_drawer">open drawer</string>
     <string name="close_drawer">close drawer</string>
     <string name="usefull_habit">Полезная</string>
