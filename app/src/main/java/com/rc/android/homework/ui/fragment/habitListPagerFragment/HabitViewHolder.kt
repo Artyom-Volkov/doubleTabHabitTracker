@@ -5,7 +5,7 @@ import com.rc.android.homework.Habit
 import com.rc.android.homework.R
 import com.rc.android.homework.databinding.HabitCardBinding
 
-class HabitViewHolder(val habitCardBinding : HabitCardBinding, val onClicked: (Habit.Type, Int) -> Unit )
+class HabitViewHolder(val habitCardBinding : HabitCardBinding, val onClicked: (Int) -> Unit )
     : RecyclerView.ViewHolder(habitCardBinding.root) {
 
     fun bind(habit: Habit){
@@ -21,7 +21,7 @@ class HabitViewHolder(val habitCardBinding : HabitCardBinding, val onClicked: (H
                 else -> {context.getString(R.string.harmfull_habit)}
             }
 
-            itemView.setOnClickListener { onHabitClicked(habit.type, adapterPosition) }
+            itemView.setOnClickListener { onClicked(adapterPosition) }
 
             habitPriorityTv.text = habit.priority.toString()
 
@@ -31,10 +31,5 @@ class HabitViewHolder(val habitCardBinding : HabitCardBinding, val onClicked: (H
                 habitFreqTv.text = String.format(stringFormat, executionNumber.toString(), countTimePeriod.toString(), timePeriod.time)
             }
         }
-    }
-
-    private fun onHabitClicked(habitType: Habit.Type, position: Int){
-
-        onClicked(habitType, position)
     }
 }

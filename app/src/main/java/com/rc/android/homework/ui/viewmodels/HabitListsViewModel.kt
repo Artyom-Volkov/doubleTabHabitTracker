@@ -27,7 +27,7 @@ class HabitListsViewModel() : ViewModel(), HabitDatabase.Listener {
     private fun updateHabitList(){
 
         if (habitNameFilter.isEmpty()){
-            mutableHabitList.value = HabitDatabase.habits
+            mutableHabitList.value = HabitDatabase.habits.toMutableList()
         }
         else {
             mutableHabitList.value =
