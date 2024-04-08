@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.rc.android.homework.*
 import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment
+import com.rc.android.homework.ui.viewmodels.HabitEditingViewModel
+import com.rc.android.homework.ui.viewmodels.HabitEditingViewModelFactory
 import kotlinx.android.synthetic.main.fragment_habit_editing.*
 
 class HabitEditingFragment : Fragment() {
@@ -37,6 +40,8 @@ class HabitEditingFragment : Fragment() {
     private var habit: Habit? = null
     private var position: Int? = null
 
+    private lateinit var viewModel: HabitEditingViewModel
+
     //private var listener: Listener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +51,9 @@ class HabitEditingFragment : Fragment() {
             position?.let {
                 habit = HabitDatabase.getHabit(it)
             }
+
+            viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(position))
+                .get(HabitEditingViewModel::class.java)
 
         }
     }

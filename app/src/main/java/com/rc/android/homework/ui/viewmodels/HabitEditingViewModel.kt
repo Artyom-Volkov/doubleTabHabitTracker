@@ -4,11 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rc.android.homework.Habit
 
-class HabitEditingViewModel(private val habit: Habit?) : ViewModel() {
+class HabitEditingViewModel(private val position: Int?) : ViewModel() {
 
     private val mutableHabit: MutableLiveData<Habit?> = MutableLiveData()
 
     init {
-        mutableHabit.value = habit
+        mutableHabit.value = null
     }
 }
