@@ -8,8 +8,7 @@ import com.rc.android.homework.Habit
 import com.rc.android.homework.HabitDatabase
 import com.rc.android.homework.HabitTimePeriod
 
-class HabitEditingViewModel(private val position: Int?,
-                            private val onMakeToast: (String)-> Unit ) : ViewModel() {
+class HabitEditingViewModel(private val position: Int? ) : ViewModel() {
 
     private val mutableHabit: MutableLiveData<HabitEditing> = MutableLiveData()
 
@@ -32,46 +31,16 @@ class HabitEditingViewModel(private val position: Int?,
     }
 
     public fun executionNumberEditing(executionNumberStr: String){
-        mutableHabit.value?.freq?.executionNumber = executionNumberStr.toInt()
+
+        mutableHabit.value?.freq?.executionNumber = executionNumberStr.toIntOrNull()
     }
 
     public fun countTimePeriodEditing(countTimePeriodStr: String){
-        mutableHabit.value?.freq?.countTimePeriod = countTimePeriodStr.toInt()
+        mutableHabit.value?.freq?.countTimePeriod = countTimePeriodStr.toIntOrNull()
     }
     public fun timePeriodSpinnerChanged(position: Int){
         mutableHabit.value?.freq?.timePeriod = HabitTimePeriod.values()[position]
     }
 
-    public fun saveHabitButtonClicked(v: View){
-
-        habit.value?.run {
-            if (name.isNullOrEmpty()){
-                onMakeToast("Укажите название привычки")
-                return
-            }
-
-            if (type == null){
-                onMakeToast("Укажите тип привычки")
-                return
-            }
-            
-            if (freq.executionNumber == null){
-                onMakeToast("Укажите кол-во выполнения привычки")
-                return
-            }
-            
-            if (freq.countTimePeriod == null){
-                onMakeToast("Укажите периодичность привычки")
-                return
-            }
-
-            val habit = getHabit()
-            habit?.let { habit ->  
-                
-            }
-        }
-
-
-    }
 
 }

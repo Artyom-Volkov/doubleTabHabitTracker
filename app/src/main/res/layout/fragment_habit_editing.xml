@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:text="@{ String.valueOf(viewModel.habit.freq.executionNumber)}"
+            android:text='@{ viewModel.habit.freq.executionNumber == null ? "" :  String.valueOf(viewModel.habit.freq.executionNumber)}'
             app:layout_constraintStart_toEndOf="@+id/textView7"
             app:layout_constraintTop_toTopOf="@+id/textView7" />
 
@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="numberSigned"
-            android:text="@{ String.valueOf(viewModel.habit.freq.countTimePeriod)}"
+            android:text='@{ viewModel.habit.freq.countTimePeriod == null ? "" : String.valueOf(viewModel.habit.freq.countTimePeriod)}'
             app:layout_constraintStart_toEndOf="@+id/textView9"
             app:layout_constraintTop_toTopOf="@+id/textView9" />
 
@@ -150,7 +150,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:ems="10"
-            android:text="@{viewModel.habit.decr}"
+            android:text="@={viewModel.habit.decr}"
             android:gravity="start|top"
             android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
@@ -164,7 +164,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginBottom="28dp"
             android:text="@string/save_habit"
-            android:onClick="@{viewModel.saveHabitButtonClicked}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

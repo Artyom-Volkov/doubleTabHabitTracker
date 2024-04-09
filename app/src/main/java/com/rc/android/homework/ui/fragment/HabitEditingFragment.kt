@@ -11,9 +11,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.rc.android.homework.*
+import com.rc.android.homework.Habit
+import com.rc.android.homework.HabitDatabase
+import com.rc.android.homework.R
 import com.rc.android.homework.databinding.FragmentHabitEditingBinding
 import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment
+import com.rc.android.homework.ui.viewmodels.HabitEditing
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModel
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModelFactory
 import kotlinx.android.synthetic.main.fragment_habit_editing.*
@@ -47,8 +50,6 @@ class HabitEditingFragment : Fragment() {
 
     private lateinit var viewModel: HabitEditingViewModel
 
-    //private var listener: Listener? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { args ->
@@ -58,7 +59,7 @@ class HabitEditingFragment : Fragment() {
             }
         }
 
-        viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(position, ::makeToast))
+        viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(position))
             .get(HabitEditingViewModel::class.java)
     }
 
@@ -66,7 +67,6 @@ class HabitEditingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
         val binding = DataBindingUtil.inflate<FragmentHabitEditingBinding>(inflater,
             R.layout.fragment_habit_editing, container, false)
@@ -79,24 +79,8 @@ class HabitEditingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*habit?.let {
-            nameEditText.text.append(it.name)
-            prioritySpinner.setSelection(it.priority - 1)
-            executionNumberEditText.text.append(it.freq.executionNumber.toString())
-            countTimePeriodEditText.text.append(it.freq.countTimePeriod.toString())
+        saveHabitButton.setOnClickListener{ saveHabitButtonClicked() }
 
-            val position = it.freq.timePeriod.ordinal
-            timePeriodSpinner.setSelection(position)
-
-            habitDecrEditText.text.append(it.decr)
-
-            when(it.type){
-                Habit.Type.USEFULL -> usefulHabitRadioButton.isChecked = true
-                Habit.Type.HARMFULL -> harmfulHabitRadioButton.isChecked = true
-            }
-        }
-
-        saveHabitButton.setOnClickListener{ saveHabitButtonClicked() }*/
         executionNumberEditText.addTextChangedListener{
             viewModel.executionNumberEditing(it.toString())
         }
@@ -114,79 +98,49 @@ class HabitEditingFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    private fun makeToast(text: String){
+    private fun MakeShortToast(text: String){
         Toast.makeText(context, text, Toast.LENGTH_SHORT)
             .apply { show() }
     }
 
     private fun saveHabitButtonClicked(){
 
-        if (nameEditText.text.isEmpty()){
-            Toast.makeText(context, "Укажите название привычки", Toast.LENGTH_SHORT)
-                .apply { show() }
-            return
-        }
+        val habitEditing : HabitEditing? = viewModel.habit.value
 
-        if (habitTypeRadioGroup.checkedRadioButtonId == -1){
-            Toast.makeText(context, "Укажите тип привычки", Toast.LENGTH_SHORT)
-                .apply { show() }
-            return
-        }
-
-        if (executionNumberEditText.text.isEmpty()){
-            Toast.makeText(context, "Укажите кол-во выполнения привычки", Toast.LENGTH_SHORT)
-                .apply { show() }
-            return
-        }
-
-        if (countTimePeriodEditText.text.isEmpty()){
-            Toast.makeText(context, "Укажите периодичность привычки", Toast.LENGTH_SHORT)
-                .apply { show() }
-            return
-        }
-
-        val freqHabit = HabitFreq(executionNumberEditText.text.toString().toInt(),
-            countTimePeriodEditText.text.toString().toInt(),
-            HabitTimePeriod.values().get(timePeriodSpinner.selectedItemPosition)
-        )
-
-        val habit = Habit(
-            name = nameEditText.text.toString(),
-            decr = habitDecrEditText.text.toString(),
-            type = when(habitTypeRadioGroup.checkedRadioButtonId){
-                usefulHabitRadioButton.id -> Habit.Type.USEFULL
-                else -> Habit.Type.HARMFULL
-            },
-            priority = prioritySpinner.selectedItem.toString().toInt(),
-            freq = freqHabit,
-            -1
-        )
-
-        if (this.habit != null){
-            position?.let { position ->
-                habitEdited(position, habit)
+        habitEditing?.run {
+            if (name.isNullOrEmpty()){
+                MakeShortToast("Укажите название привычки")
+                return
             }
-            /*if (position!= null)
-                habitEdited(habit, position!!, habit.type != this.habit!!.type)*/
-        }
-        else{
-            addNewHabit(habit)
+
+            if (type == null){
+                MakeShortToast("Укажите тип привычки")
+                return
+            }
+
+            if (freq.executionNumber == null){
+                MakeShortToast("Укажите кол-во выполнения привычки")
+                return
+            }
+
+            if (freq.countTimePeriod == null){
+                MakeShortToast("Укажите периодичность привычки")
+                return
+            }
+
+            val habit: Habit? = getHabit()
+            if (habit != null){
+                if (position == null){
+                    addNewHabit(habit)
+                } else {
+                    habitEdited(position!!, habit)
+                }
+            }
         }
     }
 
     fun addNewHabit(habit: Habit){
 
-        /*habit.let {
-            val habits = when (it.type) {
-                Habit.Type.HARMFULL -> HabitDatabase.harmfullHabits
-                else -> HabitDatabase.usefullHabits
-            }
-            habits.add(it)
-        }*/
         HabitDatabase.add(habit)
 
         val habitListsFragment : HabitListsFragment? = parentFragmentManager.findFragmentByTag(HabitListsFragment.TAG) as HabitListsFragment?
