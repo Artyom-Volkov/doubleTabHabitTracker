@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.rc.android.homework.*
+import com.rc.android.homework.databinding.FragmentHabitEditingBinding
 import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModel
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModelFactory
 import kotlinx.android.synthetic.main.fragment_habit_editing.*
+
 
 class HabitEditingFragment : Fragment() {
 
@@ -51,11 +56,10 @@ class HabitEditingFragment : Fragment() {
             position?.let {
                 habit = HabitDatabase.getHabit(it)
             }
-
-            viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(position))
-                .get(HabitEditingViewModel::class.java)
-
         }
+
+        viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(position, ::makeToast))
+            .get(HabitEditingViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -63,13 +67,19 @@ class HabitEditingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_habit_editing, container, false)
+
+        val binding = DataBindingUtil.inflate<FragmentHabitEditingBinding>(inflater,
+            R.layout.fragment_habit_editing, container, false)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        habit?.let {
+        /*habit?.let {
             nameEditText.text.append(it.name)
             prioritySpinner.setSelection(it.priority - 1)
             executionNumberEditText.text.append(it.freq.executionNumber.toString())
@@ -86,11 +96,31 @@ class HabitEditingFragment : Fragment() {
             }
         }
 
-        saveHabitButton.setOnClickListener{ saveHabitButtonClicked() }
+        saveHabitButton.setOnClickListener{ saveHabitButtonClicked() }*/
+        executionNumberEditText.addTextChangedListener{
+            viewModel.executionNumberEditing(it.toString())
+        }
+        countTimePeriodEditText.addTextChangedListener {
+            viewModel.countTimePeriodEditing(it.toString())
+        }
+        timePeriodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                viewModel.timePeriodSpinnerChanged(p2)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+    }
+
+    private fun makeToast(text: String){
+        Toast.makeText(context, text, Toast.LENGTH_SHORT)
+            .apply { show() }
     }
 
     private fun saveHabitButtonClicked(){
@@ -119,8 +149,8 @@ class HabitEditingFragment : Fragment() {
             return
         }
 
-        val freqHabit = HabitFreq(executionNumberEditText.text.toString().toUInt(),
-            countTimePeriodEditText.text.toString().toUInt(),
+        val freqHabit = HabitFreq(executionNumberEditText.text.toString().toInt(),
+            countTimePeriodEditText.text.toString().toInt(),
             HabitTimePeriod.values().get(timePeriodSpinner.selectedItemPosition)
         )
 

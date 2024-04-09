@@ -16,7 +16,7 @@ object HabitDatabase {
 
     init {
         for (i in 1..16 step 2){
-            val habitFreq = HabitFreq(i.toUInt(), (i*2).toUInt(), HabitTimePeriod.HOUR)
+            val habitFreq = HabitFreq(i.toInt(), (i*2).toInt(), HabitTimePeriod.HOUR)
             val habit0 = Habit("name$i", "description$i", Habit.Type.USEFULL, 3, habitFreq, -1)
             val habit1 = Habit("name" + (i + 1), "description" + (i + 1), Habit.Type.HARMFULL, 3, habitFreq, -1)
             habitMutableList.apply{
