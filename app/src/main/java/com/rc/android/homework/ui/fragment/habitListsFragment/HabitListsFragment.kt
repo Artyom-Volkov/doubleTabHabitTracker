@@ -37,13 +37,6 @@ class HabitListsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-
-        /*if (savedInstanceState == null) {
-            childFragmentManager.beginTransaction()
-                .replace(R.id.bottomSheetContainer, BottomSheetFragment.newInstance(), "")
-                .commit()
-        }*/
 
         return inflater.inflate(R.layout.fragment_habit_lists, container, false)
     }
@@ -66,7 +59,6 @@ class HabitListsFragment : Fragment() {
         }.attach()
 
         addHabitFAB.setOnClickListener { addHabitFABClicked() }
-
 
     }
 

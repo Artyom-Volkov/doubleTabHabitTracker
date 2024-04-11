@@ -15,8 +15,12 @@ object HabitDatabase {
         get() = habitMutableList.toList()
 
     init {
+        makeTestHabitList()
+    }
+
+    private fun makeTestHabitList(){
         for (i in 1..16 step 2){
-            val habitFreq = HabitFreq(i.toInt(), (i*2).toInt(), HabitTimePeriod.HOUR)
+            val habitFreq = HabitFreq(i, i*2, HabitTimePeriod.HOUR)
             val habit0 = Habit("name$i", "description$i", Habit.Type.USEFULL, 3, habitFreq, -1)
             val habit1 = Habit("name" + (i + 1), "description" + (i + 1), Habit.Type.HARMFULL, 3, habitFreq, -1)
             habitMutableList.apply{
@@ -27,8 +31,6 @@ object HabitDatabase {
     }
 
     public fun getHabit(position: Int): Habit = habitMutableList.get(position)
-
-    fun getFilterList(habitType: Habit.Type) : MutableList<Habit> = habitMutableList.filter { it.type == habitType }.toMutableList()
 
     fun setListener(listener: Listener){
         this.listener = listener
@@ -48,13 +50,6 @@ object HabitDatabase {
         }
 
         return -1
-    }
-
-    public fun getPosition(habitType: Habit.Type, position: Int): Int{
-
-        val habits = getFilterList(habitType)
-        val habit = habits.get(position)
-        return getPosition(habit)
     }
 
     public fun add(habit: Habit){
