@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.rc.android.homework.Habit
 import com.rc.android.homework.HabitDatabase
 
-class HabitListsViewModel() : ViewModel(), HabitDatabase.Listener {
+class HabitListsViewModel() : ViewModel() {
 
     private val mutableHabitList: MutableLiveData<MutableList<Habit>> = MutableLiveData()
     private var habitNameFilter = ""
@@ -14,9 +14,17 @@ class HabitListsViewModel() : ViewModel(), HabitDatabase.Listener {
     val habitList : LiveData<MutableList<Habit>> = mutableHabitList
 
     init {
-        HabitDatabase.setListener(this)
+        HabitDatabase.setListener(object : HabitDatabase.Listener{
+            override fun onHabitAdded(habits : List<Habit>) {
+                updateHabitList(habits)
+            }
 
-        updateHabitList()
+            override fun onHabitReplaced(position: Int, habits : List<Habit>) {
+                updateHabitList(habits)
+            }
+        })
+
+        updateHabitList(HabitDatabase.habits)
     }
 
     override fun onCleared() {
@@ -24,27 +32,19 @@ class HabitListsViewModel() : ViewModel(), HabitDatabase.Listener {
         super.onCleared()
     }
 
-    private fun updateHabitList(){
+    private fun updateHabitList(habits : List<Habit>){
 
         if (habitNameFilter.isEmpty()){
-            mutableHabitList.value = HabitDatabase.habits.toMutableList()
+            mutableHabitList.value = habits.toMutableList()
         }
         else {
             mutableHabitList.value =
-                HabitDatabase.habits.filter { it.name.startsWith(habitNameFilter) }.toMutableList()
+                habits.filter { it.name.startsWith(habitNameFilter) }.toMutableList()
         }
     }
 
-    override fun onHabitAdded() {
-        updateHabitList()
-    }
-
-    override fun onHabitReplaced(position: Int) {
-        updateHabitList()
-    }
-
-    public fun HabitNameFiltering(habitNameFilter: String){
+    fun habitNameFiltering(habitNameFilter: String){
         this.habitNameFilter = habitNameFilter
-        updateHabitList()
+        updateHabitList(HabitDatabase.habits)
     }
 }

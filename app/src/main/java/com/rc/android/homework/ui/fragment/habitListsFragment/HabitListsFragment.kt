@@ -8,23 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rc.android.homework.R
-import kotlinx.android.synthetic.main.fragment_habit_list_pager.*
 import kotlinx.android.synthetic.main.fragment_habit_lists.*
 
 class HabitListsFragment : Fragment() {
-
-    companion object {
-
-        public const val TAG = "HABIT_LISTS_FRAGMENT_TAG"
-
-        @JvmStatic
-        fun newInstance() =
-            HabitListsFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-    }
 
     private lateinit var habitListsFragmentAdapter: HabitListsFragmentAdapter
 
@@ -65,18 +51,6 @@ class HabitListsFragment : Fragment() {
     private fun addHabitFABClicked(){
 
         findNavController().navigate(R.id.action_habitListsFragment_to_habitEditingFragment)
-    }
-
-    public fun onHabitAdded(){
-
-        habitRecyclerview?.adapter?.let {
-            val habitCount = it.itemCount
-            it.notifyItemInserted(habitCount - 1)
-        }
-    }
-
-    public fun HabitEdited(position: Int){
-        habitRecyclerview?.adapter?.notifyItemChanged(position)
     }
 
 }

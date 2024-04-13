@@ -23,16 +23,21 @@ class HabitListPagerFragment : Fragment() {
         const val HABIT_TYPE = "HABIT_TYPE"
 
         @JvmStatic
-        fun newInstance(habitType: Habit.Type) {
-            val bundle = Bundle()
-            bundle.putInt(HABIT_TYPE, habitType.ordinal)
-        }
+        fun newInstance(habitType: Habit.Type): HabitListPagerFragment {
 
+            val fragment = HabitListPagerFragment()
+            fragment.arguments = Bundle().apply {
+                putInt(HABIT_TYPE, habitType.ordinal)
+            }
+            return fragment
+        }
     }
 
     private lateinit var viewModel: HabitListsViewModel
 
     private var habitType: Habit.Type? = null
+
+    private val habitAdapter: HabitAdapter = HabitAdapter { position -> onHabitClicked(position) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,11 +66,12 @@ class HabitListPagerFragment : Fragment() {
 
         habitRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@HabitListPagerFragment.context)
+            adapter = habitAdapter
         }
 
         viewModel.habitList.observe(viewLifecycleOwner) { list ->
-            val filterList = list.filter { it.type == habitType }.toMutableList()
-            habitRecyclerview.adapter = HabitAdapter(filterList, ::onHabitClicked)
+            val filterList = list.filter { it.type == habitType }
+            habitAdapter.setHabitList(filterList)
         }
 
     }

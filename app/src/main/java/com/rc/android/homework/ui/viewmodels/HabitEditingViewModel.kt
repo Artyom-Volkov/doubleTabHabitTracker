@@ -22,23 +22,23 @@ class HabitEditingViewModel(private val position: Int? ) : ViewModel() {
         }
     }
 
-    public fun usefulHabitRadioButtonClicked(v: View){
+    fun usefulHabitRadioButtonClicked(v: View){
         mutableHabit.value?.type = Habit.Type.USEFULL
     }
 
-    public fun harmfulHabitRadioButtonClicked(v: View){
+    fun harmfulHabitRadioButtonClicked(v: View){
         mutableHabit.value?.type = Habit.Type.HARMFULL
     }
 
-    public fun executionNumberEditing(executionNumberStr: String){
-
+    fun executionNumberEditing(executionNumberStr: String){
         mutableHabit.value?.freq?.executionNumber = executionNumberStr.toIntOrNull()
     }
 
-    public fun countTimePeriodEditing(countTimePeriodStr: String){
+    fun countTimePeriodEditing(countTimePeriodStr: String){
         mutableHabit.value?.freq?.countTimePeriod = countTimePeriodStr.toIntOrNull()
     }
-    public fun timePeriodSpinnerChanged(position: Int){
+
+    fun timePeriodSpinnerChanged(position: Int){
         mutableHabit.value?.freq?.timePeriod = HabitTimePeriod.values()[position]
     }
 

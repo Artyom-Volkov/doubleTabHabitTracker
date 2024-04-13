@@ -6,11 +6,10 @@ import com.rc.android.homework.HabitFreq
 class HabitEditing (habit: Habit?) {
 
     var name: String? = null
-    var decr: String? = null
+    var decr: String = ""
     var type: Habit.Type? = null
     var priority: Int? = null
     var freq: HabitFreqEditing = HabitFreqEditing(null)
-    var color: Int? = null
 
     init {
         habit?.let {
@@ -19,7 +18,6 @@ class HabitEditing (habit: Habit?) {
             type = it.type
             priority = it.priority
             freq = HabitFreqEditing( it.freq)
-            color = it.color
         }
 
     }
@@ -30,8 +28,8 @@ class HabitEditing (habit: Habit?) {
 
         val habitFreq: HabitFreq? = freq.toHabitFreq()
 
-        if (name != null && type != null && priority!= null && habitFreq != null && color != null)
-            habit = Habit(name!!, decr!!, type!!, priority!!, habitFreq, color!! )
+        if (name != null && type != null && priority!= null && habitFreq != null)
+            habit = Habit(name!!, decr!!, type!!, priority!!, habitFreq, -1 )
 
         return habit
     }

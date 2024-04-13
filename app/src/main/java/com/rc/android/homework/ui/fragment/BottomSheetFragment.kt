@@ -47,7 +47,7 @@ class BottomSheetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         searchHabitEditText.addTextChangedListener{
-            viewModel.HabitNameFiltering(it.toString())
+            viewModel.habitNameFiltering(it.toString())
         }
     }
 

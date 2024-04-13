@@ -3,8 +3,8 @@ package com.rc.android.homework
 object HabitDatabase {
 
     interface Listener {
-        public fun onHabitAdded()
-        public fun onHabitReplaced(position: Int)
+        fun onHabitAdded(habits : List<Habit>)
+        fun onHabitReplaced(position: Int, habits : List<Habit>)
     }
 
     private var listener: Listener? = null
@@ -30,7 +30,7 @@ object HabitDatabase {
         }
     }
 
-    public fun getHabit(position: Int): Habit = habitMutableList.get(position)
+    fun getHabit(position: Int): Habit = habitMutableList.get(position)
 
     fun setListener(listener: Listener){
         this.listener = listener
@@ -40,7 +40,7 @@ object HabitDatabase {
         this.listener = null
     }
 
-    public fun getPosition(habit: Habit): Int{
+    fun getPosition(habit: Habit): Int{
 
         var index = 0
         for (habitFromList: Habit in habitMutableList){
@@ -52,15 +52,15 @@ object HabitDatabase {
         return -1
     }
 
-    public fun add(habit: Habit){
+    fun add(habit: Habit){
         habitMutableList.add(habit)
 
-        listener?.onHabitAdded()
+        listener?.onHabitAdded(habits)
     }
 
-    public fun replace(position: Int, habit: Habit){
+    fun replace(position: Int, habit: Habit){
         habitMutableList.set(position, habit)
 
-        listener?.onHabitReplaced(position)
+        listener?.onHabitReplaced(position, habits)
     }
 }

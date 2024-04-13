@@ -1,6 +1,5 @@
 package com.rc.android.homework.ui.fragment.habitListsFragment
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.rc.android.homework.Habit
@@ -19,11 +18,6 @@ class HabitListsFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragm
                 Habit.Type.USEFULL
             }
         }
-
-        val fragment = HabitListPagerFragment()
-        fragment.arguments = Bundle().apply {
-            putInt(HabitListPagerFragment.HABIT_TYPE, habitType.ordinal)
-        }
-        return fragment
+        return HabitListPagerFragment.newInstance(habitType)
     }
 }

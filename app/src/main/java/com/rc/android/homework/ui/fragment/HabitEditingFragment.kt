@@ -15,7 +15,6 @@ import com.rc.android.homework.Habit
 import com.rc.android.homework.HabitDatabase
 import com.rc.android.homework.R
 import com.rc.android.homework.databinding.FragmentHabitEditingBinding
-import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment
 import com.rc.android.homework.ui.viewmodels.HabitEditing
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModel
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModelFactory
@@ -26,23 +25,7 @@ class HabitEditingFragment : Fragment() {
 
     companion object {
 
-        public const val HABIT_POSITION = "HABIT_POSITION"
-
-        @JvmStatic
-        fun newInstance() =
-            HabitEditingFragment().apply {
-
-            }
-
-        fun newInstance(habit: Habit, position: Int): HabitEditingFragment {
-            val fragment = HabitEditingFragment()
-            val bundle = Bundle()
-            //bundle.putParcelable(Habit::class.simpleName, habit)
-            bundle.putInt(HABIT_POSITION, position)
-            fragment.arguments = bundle
-            return fragment
-        }
-
+        const val HABIT_POSITION = "HABIT_POSITION"
     }
 
     private var habit: Habit? = null
@@ -94,7 +77,6 @@ class HabitEditingFragment : Fragment() {
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
-
         }
     }
 
@@ -139,23 +121,17 @@ class HabitEditingFragment : Fragment() {
         }
     }
 
-    fun addNewHabit(habit: Habit){
+    private fun addNewHabit(habit: Habit){
 
         HabitDatabase.add(habit)
 
-        val habitListsFragment : HabitListsFragment? = parentFragmentManager.findFragmentByTag(HabitListsFragment.TAG) as HabitListsFragment?
-
-        habitListsFragment?.onHabitAdded()
-        findNavController().navigate(R.id.action_habitEditingFragment_to_habitListsFragment)
-
+        findNavController().popBackStack()
     }
 
-    fun habitEdited(position: Int, habit: Habit){
+    private fun habitEdited(position: Int, habit: Habit){
+
         HabitDatabase.replace(position, habit)
 
-        val habitListsFragment : HabitListsFragment? = parentFragmentManager.findFragmentByTag(HabitListsFragment.TAG) as HabitListsFragment?
-
-        habitListsFragment?.HabitEdited(position)
-        findNavController().navigate(R.id.action_habitEditingFragment_to_habitListsFragment)
+        findNavController().popBackStack()
     }
 }
