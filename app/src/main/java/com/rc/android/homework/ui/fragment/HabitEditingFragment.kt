@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -15,10 +13,8 @@ import com.rc.android.homework.Habit
 import com.rc.android.homework.HabitDatabase
 import com.rc.android.homework.R
 import com.rc.android.homework.databinding.FragmentHabitEditingBinding
-import com.rc.android.homework.ui.viewmodels.HabitEditing
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModel
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModelFactory
-import kotlinx.android.synthetic.main.fragment_habit_editing.*
 
 
 class HabitEditingFragment : Fragment() {
@@ -42,7 +38,7 @@ class HabitEditingFragment : Fragment() {
             }
         }
 
-        viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(position))
+        viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(position, ::MakeShortToast))
             .get(HabitEditingViewModel::class.java)
     }
 
@@ -62,20 +58,10 @@ class HabitEditingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        saveHabitButton.setOnClickListener{ saveHabitButtonClicked() }
+        viewModel.isHaveBeenHabitSaved.observe(viewLifecycleOwner){
 
-        executionNumberEditText.addTextChangedListener{
-            viewModel.executionNumberEditing(it.toString())
-        }
-        countTimePeriodEditText.addTextChangedListener {
-            viewModel.countTimePeriodEditing(it.toString())
-        }
-        timePeriodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                viewModel.timePeriodSpinnerChanged(p2)
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
+            if (it == true){
+                findNavController().popBackStack()
             }
         }
     }
@@ -83,55 +69,5 @@ class HabitEditingFragment : Fragment() {
     private fun MakeShortToast(text: String){
         Toast.makeText(context, text, Toast.LENGTH_SHORT)
             .apply { show() }
-    }
-
-    private fun saveHabitButtonClicked(){
-
-        val habitEditing : HabitEditing? = viewModel.habit.value
-
-        habitEditing?.run {
-            if (name.isNullOrEmpty()){
-                MakeShortToast("Укажите название привычки")
-                return
-            }
-
-            if (type == null){
-                MakeShortToast("Укажите тип привычки")
-                return
-            }
-
-            if (freq.executionNumber == null){
-                MakeShortToast("Укажите кол-во выполнения привычки")
-                return
-            }
-
-            if (freq.countTimePeriod == null){
-                MakeShortToast("Укажите периодичность привычки")
-                return
-            }
-
-            val habit: Habit? = getHabit()
-            if (habit != null){
-                if (position == null){
-                    addNewHabit(habit)
-                } else {
-                    habitEdited(position!!, habit)
-                }
-            }
-        }
-    }
-
-    private fun addNewHabit(habit: Habit){
-
-        HabitDatabase.add(habit)
-
-        findNavController().popBackStack()
-    }
-
-    private fun habitEdited(position: Int, habit: Habit){
-
-        HabitDatabase.replace(position, habit)
-
-        findNavController().popBackStack()
     }
 }

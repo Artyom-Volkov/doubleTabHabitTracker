@@ -8,6 +8,7 @@
         <import type="android.text.TextUtils"/>
         <import type="com.rc.android.homework.Habit"/>
         <import type="com.rc.android.homework.HabitFreq"/>
+        <import type="com.rc.android.homework.ui.binding.ConverterBinding"/>
 
         <variable
             name="viewModel"
@@ -82,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="@{viewModel.habit.type == Habit.Type.USEFULL}"
-                android:onClick="@{viewModel.usefulHabitRadioButtonClicked}"
+                android:onClick="@{ (view) -> viewModel.usefulHabitRadioButtonClicked()}"
                 android:text="@string/usefull_habit" />
 
             <RadioButton
@@ -90,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="@{viewModel.habit.type == Habit.Type.HARMFULL}"
-                android:onClick="@{viewModel.harmfulHabitRadioButtonClicked}"
+                android:onClick="@{ (view) -> viewModel.harmfulHabitRadioButtonClicked()}"
                 android:text="@string/harmfull_habit" />
         </RadioGroup>
 
@@ -110,7 +111,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:text='@{ viewModel.habit.freq.executionNumber == null ? "" :  String.valueOf(viewModel.habit.freq.executionNumber)}'
+            android:text='@={ConverterBinding.intToString(viewModel.habit.freq.executionNumber)}'
             app:layout_constraintStart_toEndOf="@+id/textView7"
             app:layout_constraintTop_toTopOf="@+id/textView7" />
 
@@ -130,7 +131,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="numberSigned"
-            android:text='@{ viewModel.habit.freq.countTimePeriod == null ? "" : String.valueOf(viewModel.habit.freq.countTimePeriod)}'
+            android:text='@={ConverterBinding.intToString(viewModel.habit.freq.countTimePeriod)}'
             app:layout_constraintStart_toEndOf="@+id/textView9"
             app:layout_constraintTop_toTopOf="@+id/textView9" />
 
@@ -164,6 +165,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginBottom="28dp"
             android:text="@string/save_habit"
+            android:onClick="@{ (view) -> viewModel.saveHabitButtonClicked()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -173,6 +175,7 @@
             android:layout_height="wrap_content"
             android:entries="@array/HabitFreqs"
             android:selection="@{viewModel.habit.freq.timePeriod.ordinal}"
+            android:onItemSelected="@{(parent, view, position, id) -> viewModel.timePeriodSpinnerChanged(position)}"
             app:layout_constraintStart_toEndOf="@+id/countTimePeriodEditText"
             app:layout_constraintTop_toTopOf="@+id/textView9" />
 
