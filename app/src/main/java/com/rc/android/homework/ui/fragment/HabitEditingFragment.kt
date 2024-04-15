@@ -38,7 +38,7 @@ class HabitEditingFragment : Fragment() {
             }
         }
 
-        viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(position, ::MakeShortToast))
+        viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(position, ::makeShortToast))
             .get(HabitEditingViewModel::class.java)
     }
 
@@ -66,7 +66,7 @@ class HabitEditingFragment : Fragment() {
         }
     }
 
-    private fun MakeShortToast(text: String){
+    private fun makeShortToast(text: String){
         Toast.makeText(context, text, Toast.LENGTH_SHORT)
             .apply { show() }
     }
