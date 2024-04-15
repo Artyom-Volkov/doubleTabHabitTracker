@@ -1,16 +1,23 @@
 package com.rc.android.homework
 
 import android.os.Parcelable
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 
 @Parcelize
-data class Habit (val name: String,
-                  val decr: String,
-                  val type: @RawValue Type,
-                  val priority: Int,
-                  val freq:  @RawValue HabitFreq,
-                  val color: Int) : Parcelable {
+@Entity(tableName = "habits")
+data class Habit (
+    @PrimaryKey(autoGenerate = true) val uid: Int,
+    val name: String,
+    val decr: String,
+    val type: @RawValue Type,
+    val priority: Int,
+    @Embedded val freq: @RawValue HabitFreq,
+    @Ignore val color: Int) : Parcelable {
 
     enum class Type(val value: Int){
         USEFULL(0),
