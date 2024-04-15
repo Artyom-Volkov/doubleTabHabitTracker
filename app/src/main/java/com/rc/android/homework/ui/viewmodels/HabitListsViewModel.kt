@@ -8,10 +8,10 @@ import com.rc.android.homework.HabitDatabase
 
 class HabitListsViewModel() : ViewModel() {
 
-    private val mutableHabitList: MutableLiveData<MutableList<Habit>> = MutableLiveData()
+    private val mutableHabitList: MutableLiveData<List<Habit>> = MutableLiveData()
     private var habitNameFilter = ""
 
-    val habitList : LiveData<MutableList<Habit>> = mutableHabitList
+    val habitList : LiveData<List<Habit>> = mutableHabitList
 
     init {
         HabitDatabase.setListener(object : HabitDatabase.Listener{
@@ -35,11 +35,10 @@ class HabitListsViewModel() : ViewModel() {
     private fun updateHabitList(habits : List<Habit>){
 
         if (habitNameFilter.isEmpty()){
-            mutableHabitList.value = habits.toMutableList()
+            mutableHabitList.value = habits
         }
         else {
-            mutableHabitList.value =
-                habits.filter { it.name.startsWith(habitNameFilter) }.toMutableList()
+            mutableHabitList.value = habits.filter { it.name.startsWith(habitNameFilter) }
         }
     }
 
