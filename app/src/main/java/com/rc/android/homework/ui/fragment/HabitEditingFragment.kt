@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.rc.android.homework.Habit
-import com.rc.android.homework.HabitDatabase
+import com.rc.android.homework.HabitRepository
 import com.rc.android.homework.R
 import com.rc.android.homework.databinding.FragmentHabitEditingBinding
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModel
@@ -21,7 +21,7 @@ class HabitEditingFragment : Fragment() {
 
     companion object {
 
-        const val HABIT_POSITION = "HABIT_POSITION"
+        const val HABIT_ID = "HABIT_ID"
     }
 
     private var habit: Habit? = null
@@ -32,9 +32,9 @@ class HabitEditingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { args ->
-            position = args.getInt(HABIT_POSITION)
+            position = args.getInt(HABIT_ID)
             position?.let {
-                habit = HabitDatabase.getHabit(it)
+                habit = HabitRepository.getHabit(it)
             }
         }
 

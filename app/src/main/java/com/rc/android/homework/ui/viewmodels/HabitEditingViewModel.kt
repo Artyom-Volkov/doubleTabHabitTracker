@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rc.android.homework.Habit
-import com.rc.android.homework.HabitDatabase
+import com.rc.android.homework.HabitRepository
 import com.rc.android.homework.HabitTimePeriod
 
 class HabitEditingViewModel(private val position: Int?,
@@ -20,7 +20,7 @@ class HabitEditingViewModel(private val position: Int?,
         mutableHabit.value = if (position == null) {
             HabitEditing(null)
         } else {
-            HabitEditing( HabitDatabase.getHabit(position))
+            HabitEditing( HabitRepository.getHabit(position))
         }
     }
 
@@ -74,14 +74,14 @@ class HabitEditingViewModel(private val position: Int?,
 
     private fun addNewHabit(habit: Habit){
 
-        HabitDatabase.add(habit)
+        HabitRepository.add(habit)
 
         mutableIsHaveBeenHabitSaved.value = true
     }
 
     private fun habitEdited(position: Int, habit: Habit){
 
-        HabitDatabase.replace(position, habit)
+        HabitRepository.replace(position, habit)
 
         mutableIsHaveBeenHabitSaved.value = true
     }

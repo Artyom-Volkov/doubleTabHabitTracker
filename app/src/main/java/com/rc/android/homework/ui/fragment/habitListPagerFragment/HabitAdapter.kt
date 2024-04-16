@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rc.android.homework.Habit
-import com.rc.android.homework.HabitDatabase
 import com.rc.android.homework.databinding.HabitCardBinding
 
 
@@ -41,8 +40,8 @@ class HabitAdapter (
     private fun onHabitClicked(adapterPosition: Int){
         val habit = habits[adapterPosition]
 
-        val databasePosition = HabitDatabase.getPosition(habit)
-        onClicked(databasePosition)
+        //val databasePosition = HabitRepository.getPosition(habit)
+        onClicked(habit.id)
     }
 
 }

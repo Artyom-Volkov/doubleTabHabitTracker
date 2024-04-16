@@ -37,7 +37,7 @@ class HabitListPagerFragment : Fragment() {
 
     private var habitType: Habit.Type? = null
 
-    private val habitAdapter: HabitAdapter = HabitAdapter { position -> onHabitClicked(position) }
+    private val habitAdapter: HabitAdapter = HabitAdapter { habitId -> onHabitClicked(habitId) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,8 @@ class HabitListPagerFragment : Fragment() {
 
         val parentFragment = requireParentFragment()
         if (parentFragment is HabitListsFragment) {
-            viewModel = ViewModelProvider(parentFragment, HabitListsViewModelFactory())
+
+            viewModel = ViewModelProvider(parentFragment, HabitListsViewModelFactory(requireContext()))
                 .get(HabitListsViewModel::class.java)
         }
 
@@ -76,10 +77,10 @@ class HabitListPagerFragment : Fragment() {
 
     }
 
-    private fun onHabitClicked(databasePosition: Int){
+    private fun onHabitClicked(habitId: Int){
 
         val bundle = Bundle()
-        bundle.putInt(HabitEditingFragment.HABIT_POSITION, databasePosition)
+        bundle.putInt(HabitEditingFragment.HABIT_ID, habitId)
         findNavController().navigate(R.id.action_habitListsFragment_to_habitEditingFragment, bundle)
     }
 
