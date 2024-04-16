@@ -13,7 +13,7 @@ data class Habit (
     @Embedded val freq: HabitFreq,
     val color: Int) {
 
-    @PrimaryKey(autoGenerate = true) val id: Int = 0
+    @PrimaryKey(autoGenerate = true) var id: Int = 0
 
     enum class Type(val value: Int){
         USEFULL(0),

@@ -25,20 +25,22 @@ class HabitEditingFragment : Fragment() {
     }
 
     private var habit: Habit? = null
-    private var position: Int? = null
+    private var habitId: Int? = null
 
     private lateinit var viewModel: HabitEditingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { args ->
-            position = args.getInt(HABIT_ID)
-            position?.let {
-                habit = HabitRepository.getHabit(it)
+            habitId = args.getInt(HABIT_ID)
+            habitId?.let {
+
+                val habitRepository = HabitRepository(requireContext())
+                habit = habitRepository.getHabit(it)
             }
         }
 
-        viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(position, ::makeShortToast))
+        viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(requireContext(), habitId, ::makeShortToast))
             .get(HabitEditingViewModel::class.java)
     }
 

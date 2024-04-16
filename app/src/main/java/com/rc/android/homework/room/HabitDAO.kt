@@ -17,4 +17,7 @@ interface HabitDAO {
 
     @Query("SELECT * FROM habits")
     fun getAllHabits(): List<Habit>
+
+    @Query("SELECT * FROM habits WHERE id=(:id)")
+    fun getHabitById(id: Int): Habit
 }

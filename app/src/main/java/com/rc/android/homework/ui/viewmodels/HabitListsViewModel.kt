@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rc.android.homework.Habit
 import com.rc.android.homework.HabitRepository
-import com.rc.android.homework.room.HabitDAO
 
 class HabitListsViewModel(context: Context) : ViewModel() {
 
@@ -19,21 +18,21 @@ class HabitListsViewModel(context: Context) : ViewModel() {
 
     init {
 
-        HabitRepository.setListener(object : HabitRepository.Listener{
+        habitRepository.setListener(object : HabitRepository.Listener{
             override fun onHabitAdded(habits : List<Habit>) {
                 updateHabitList(habits)
             }
 
-            override fun onHabitReplaced(position: Int, habits : List<Habit>) {
+            override fun onHabitReplaced(habits : List<Habit>) {
                 updateHabitList(habits)
             }
         })
 
-        updateHabitList(HabitRepository.habits)
+        updateHabitList(habitRepository.habits)
     }
 
     override fun onCleared() {
-        HabitRepository.unsetListener()
+        habitRepository.unsetListener()
         super.onCleared()
     }
 
@@ -49,6 +48,6 @@ class HabitListsViewModel(context: Context) : ViewModel() {
 
     fun habitNameFiltering(habitNameFilter: String){
         this.habitNameFilter = habitNameFilter
-        updateHabitList(HabitRepository.habits)
+        updateHabitList(habitRepository.habits)
     }
 }

@@ -40,7 +40,6 @@ class HabitAdapter (
     private fun onHabitClicked(adapterPosition: Int){
         val habit = habits[adapterPosition]
 
-        //val databasePosition = HabitRepository.getPosition(habit)
         onClicked(habit.id)
     }
 

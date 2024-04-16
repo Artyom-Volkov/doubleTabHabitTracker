@@ -1,5 +1,6 @@
 package com.rc.android.homework.ui.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,8 +8,12 @@ import com.rc.android.homework.Habit
 import com.rc.android.homework.HabitRepository
 import com.rc.android.homework.HabitTimePeriod
 
-class HabitEditingViewModel(private val position: Int?,
-                            private val onMakeShortToast : (String) -> Unit ) : ViewModel() {
+class HabitEditingViewModel(
+    context: Context,
+    private val habitId: Int?,
+    private val onMakeShortToast : (String) -> Unit ) : ViewModel() {
+
+    private val habitRepository = HabitRepository(context)
 
     private val mutableHabit: MutableLiveData<HabitEditing> = MutableLiveData()
     private val mutableIsHaveBeenHabitSaved: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
@@ -17,10 +22,10 @@ class HabitEditingViewModel(private val position: Int?,
     val isHaveBeenHabitSaved: LiveData<Boolean> = mutableIsHaveBeenHabitSaved
 
     init {
-        mutableHabit.value = if (position == null) {
+        mutableHabit.value = if (habitId == null) {
             HabitEditing(null)
         } else {
-            HabitEditing( HabitRepository.getHabit(position))
+            HabitEditing( habitRepository.getHabit(habitId))
         }
     }
 
@@ -63,10 +68,10 @@ class HabitEditingViewModel(private val position: Int?,
 
             val habit: Habit? = getHabit()
             if (habit != null){
-                if (position == null){
+                if (habitId == null){
                     addNewHabit(habit)
                 } else {
-                    habitEdited(position!!, habit)
+                    habitEdited(habit)
                 }
             }
         }
@@ -74,14 +79,14 @@ class HabitEditingViewModel(private val position: Int?,
 
     private fun addNewHabit(habit: Habit){
 
-        HabitRepository.add(habit)
+        habitRepository.add(habit)
 
         mutableIsHaveBeenHabitSaved.value = true
     }
 
-    private fun habitEdited(position: Int, habit: Habit){
+    private fun habitEdited(habit: Habit){
 
-        HabitRepository.replace(position, habit)
+        habitRepository.replace(habit)
 
         mutableIsHaveBeenHabitSaved.value = true
     }

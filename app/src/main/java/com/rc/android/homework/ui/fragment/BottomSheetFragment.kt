@@ -31,7 +31,7 @@ class BottomSheetFragment : Fragment() {
 
         val parentFragment = requireParentFragment()
         if (parentFragment is HabitListsFragment){
-            viewModel = ViewModelProvider(parentFragment, HabitListsViewModelFactory())
+            viewModel = ViewModelProvider(parentFragment, HabitListsViewModelFactory(requireContext()))
                 .get(HabitListsViewModel::class.java)
         }
     }
