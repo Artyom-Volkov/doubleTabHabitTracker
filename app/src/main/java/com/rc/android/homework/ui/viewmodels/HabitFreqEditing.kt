@@ -17,7 +17,7 @@ class HabitFreqEditing (habitFreq: HabitFreq?) {
         }
     }
 
-    public fun toHabitFreq(): HabitFreq? {
+    fun toHabitFreq(): HabitFreq? {
         if (executionNumber != null && countTimePeriod != null && timePeriod != null){
             return HabitFreq(executionNumber!!, countTimePeriod!!, timePeriod!!)
         }

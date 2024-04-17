@@ -12,5 +12,4 @@ class HabitListsViewModelFactory(val context: Context) : ViewModelProvider.Facto
         return result
     }
 
-
 }
