@@ -71,6 +71,7 @@ class HabitEditingViewModel(
                 if (habitId == null){
                     addNewHabit(habit)
                 } else {
+                    habit.id = habitId
                     habitEdited(habit)
                 }
             }

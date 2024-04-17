@@ -3,36 +3,33 @@ package com.rc.android.homework.ui.viewmodels
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.rc.android.homework.Habit
 import com.rc.android.homework.HabitRepository
 
 class HabitListsViewModel(context: Context) : ViewModel() {
 
-    private val habitRepository = HabitRepository(context)
+    private val habitListRepository: LiveData<List<Habit>> = HabitRepository(context).habits
 
     private val mutableHabitList: MutableLiveData<List<Habit>> = MutableLiveData()
     private var habitNameFilter = ""
 
     val habitList : LiveData<List<Habit>> = mutableHabitList
 
+    private val habitRepositoryObserver: Observer<List<Habit>> = object : Observer<List<Habit>>{
+
+        override fun onChanged(list: List<Habit>?) {
+            list?.let { updateHabitList(list) }
+        }
+    }
+
     init {
-
-        habitRepository.setListener(object : HabitRepository.Listener{
-            override fun onHabitAdded(habits : List<Habit>) {
-                updateHabitList(habits)
-            }
-
-            override fun onHabitReplaced(habits : List<Habit>) {
-                updateHabitList(habits)
-            }
-        })
-
-        updateHabitList(habitRepository.habits)
+        habitListRepository.observeForever(habitRepositoryObserver)
     }
 
     override fun onCleared() {
-        habitRepository.unsetListener()
+        habitListRepository.removeObserver(habitRepositoryObserver)
         super.onCleared()
     }
 
@@ -48,6 +45,8 @@ class HabitListsViewModel(context: Context) : ViewModel() {
 
     fun habitNameFiltering(habitNameFilter: String){
         this.habitNameFilter = habitNameFilter
-        updateHabitList(habitRepository.habits)
+        habitListRepository.value?.let {
+            updateHabitList(it)
+        }
     }
 }

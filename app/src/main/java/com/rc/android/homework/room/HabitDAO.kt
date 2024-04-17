@@ -1,12 +1,14 @@
 package com.rc.android.homework.room
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.room.OnConflictStrategy.Companion.REPLACE
 import com.rc.android.homework.Habit
 
 @Dao
 interface HabitDAO {
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     fun add(habit: Habit)
 
     @Update
@@ -16,7 +18,7 @@ interface HabitDAO {
     fun delete(habit: Habit)
 
     @Query("SELECT * FROM habits")
-    fun getAllHabits(): List<Habit>
+    fun getAllHabits(): LiveData<List<Habit>>
 
     @Query("SELECT * FROM habits WHERE id=(:id)")
     fun getHabitById(id: Int): Habit
