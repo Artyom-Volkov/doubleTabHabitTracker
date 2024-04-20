@@ -17,12 +17,8 @@ class HabitListsViewModel(context: Context) : ViewModel() {
 
     val habitList : LiveData<List<Habit>> = mutableHabitList
 
-    private val habitRepositoryObserver: Observer<List<Habit>> = object : Observer<List<Habit>>{
-
-        override fun onChanged(list: List<Habit>?) {
-            list?.let { updateHabitList(list) }
-        }
-    }
+    private val habitRepositoryObserver: Observer<List<Habit>> =
+        Observer<List<Habit>> { list -> list?.let { updateHabitList(list) } }
 
     init {
         habitListRepository.observeForever(habitRepositoryObserver)

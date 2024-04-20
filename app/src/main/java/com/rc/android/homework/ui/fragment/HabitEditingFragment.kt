@@ -46,8 +46,7 @@ class HabitEditingFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
 
         val binding = DataBindingUtil.inflate<FragmentHabitEditingBinding>(inflater,
             R.layout.fragment_habit_editing, container, false)
@@ -68,8 +67,8 @@ class HabitEditingFragment : Fragment() {
         }
     }
 
-    private fun makeShortToast(text: String){
-        Toast.makeText(context, text, Toast.LENGTH_SHORT)
+    private fun makeShortToast(stringId: Int){
+        Toast.makeText(context, stringId, Toast.LENGTH_SHORT)
             .apply { show() }
     }
 }

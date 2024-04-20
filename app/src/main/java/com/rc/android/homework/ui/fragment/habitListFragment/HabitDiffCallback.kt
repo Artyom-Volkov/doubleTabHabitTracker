@@ -1,4 +1,4 @@
-package com.rc.android.homework.ui.fragment.habitListPagerFragment
+package com.rc.android.homework.ui.fragment.habitListFragment
 
 import androidx.recyclerview.widget.DiffUtil
 import com.rc.android.homework.Habit

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 class HabitEditingViewModelFactory(
     private val context: Context,
     private val habitId: Int?,
-    private val onMakeShortToast : (String) -> Unit  ) : ViewModelProvider.Factory  {
+    private val onMakeShortToast : (Int) -> Unit  ) : ViewModelProvider.Factory  {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val result: T = modelClass.cast(HabitEditingViewModel(context, habitId, onMakeShortToast))

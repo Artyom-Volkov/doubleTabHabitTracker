@@ -27,6 +27,10 @@
     <string name="habit_count_time_period_title">Периодичность\nвыполнения:</string>
     <string name="habit_decription_title">Описание:</string>
     <string name="save_habit">Сохранить привычку</string>
+    <string name="warning_choose_habit_name">Укажите название привычки</string>
+    <string name="warning_choose_habit_type">Укажите тип привычки</string>
+    <string name="warning_choose_habit_execution_number">Укажите кол-во выполнения привычки</string>
+    <string name="warning_choose_habit_count_time_period">Укажите периодичность привычки</string>
     <!---->
 
     <!--fragment_bottom_sheet-->

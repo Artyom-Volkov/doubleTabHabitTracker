@@ -3,7 +3,7 @@ package com.rc.android.homework.ui.fragment.habitListsFragment
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.rc.android.homework.Habit
-import com.rc.android.homework.ui.fragment.habitListPagerFragment.HabitListPagerFragment
+import com.rc.android.homework.ui.fragment.habitListFragment.HabitListFragment
 
 class HabitListsFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
@@ -18,6 +18,6 @@ class HabitListsFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragm
                 Habit.Type.USEFULL
             }
         }
-        return HabitListPagerFragment.newInstance(habitType)
+        return HabitListFragment.newInstance(habitType)
     }
 }

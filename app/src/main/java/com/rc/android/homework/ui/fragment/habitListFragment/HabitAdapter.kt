@@ -1,4 +1,4 @@
-package com.rc.android.homework.ui.fragment.habitListPagerFragment
+package com.rc.android.homework.ui.fragment.habitListFragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

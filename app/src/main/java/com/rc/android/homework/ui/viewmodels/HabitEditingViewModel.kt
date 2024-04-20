@@ -7,11 +7,12 @@ import androidx.lifecycle.ViewModel
 import com.rc.android.homework.Habit
 import com.rc.android.homework.HabitRepository
 import com.rc.android.homework.HabitTimePeriod
+import com.rc.android.homework.R
 
 class HabitEditingViewModel(
     context: Context,
     private val habitId: Int?,
-    private val onMakeShortToast : (String) -> Unit ) : ViewModel() {
+    private val onMakeShortToast : (Int) -> Unit ) : ViewModel() {
 
     private val habitRepository = HabitRepository(context)
 
@@ -29,12 +30,8 @@ class HabitEditingViewModel(
         }
     }
 
-    fun usefulHabitRadioButtonClicked(){
-        mutableHabit.value?.type = Habit.Type.USEFULL
-    }
-
-    fun harmfulHabitRadioButtonClicked(){
-        mutableHabit.value?.type = Habit.Type.HARMFULL
+    fun habitTypeRadioButtonClicked(habitType: Habit.Type){
+        mutableHabit.value?.type = habitType
     }
 
     fun timePeriodSpinnerChanged(position: Int){
@@ -47,22 +44,22 @@ class HabitEditingViewModel(
 
         habitEditing?.run {
             if (name.isNullOrEmpty()){
-                onMakeShortToast("Укажите название привычки")
+                onMakeShortToast(R.string.warning_choose_habit_name)
                 return
             }
 
             if (type == null){
-                onMakeShortToast("Укажите тип привычки")
+                onMakeShortToast(R.string.warning_choose_habit_type)
                 return
             }
 
             if (freq.executionNumber == null){
-                onMakeShortToast("Укажите кол-во выполнения привычки")
+                onMakeShortToast(R.string.warning_choose_habit_execution_number)
                 return
             }
 
             if (freq.countTimePeriod == null){
-                onMakeShortToast("Укажите периодичность привычки")
+                onMakeShortToast(R.string.warning_choose_habit_count_time_period)
                 return
             }
 

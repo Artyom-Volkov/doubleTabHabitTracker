@@ -1,4 +1,4 @@
-package com.rc.android.homework.ui.fragment.habitListPagerFragment
+package com.rc.android.homework.ui.fragment.habitListFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,18 +14,18 @@ import com.rc.android.homework.ui.fragment.HabitEditingFragment
 import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment
 import com.rc.android.homework.ui.viewmodels.HabitListsViewModel
 import com.rc.android.homework.ui.viewmodels.HabitListsViewModelFactory
-import kotlinx.android.synthetic.main.fragment_habit_list_pager.*
+import kotlinx.android.synthetic.main.fragment_habit_list.*
 
-class HabitListPagerFragment : Fragment() {
+class HabitListFragment : Fragment() {
 
     companion object {
 
         const val HABIT_TYPE = "HABIT_TYPE"
 
         @JvmStatic
-        fun newInstance(habitType: Habit.Type): HabitListPagerFragment {
+        fun newInstance(habitType: Habit.Type): HabitListFragment {
 
-            val fragment = HabitListPagerFragment()
+            val fragment = HabitListFragment()
             fragment.arguments = Bundle().apply {
                 putInt(HABIT_TYPE, habitType.ordinal)
             }
@@ -58,7 +58,7 @@ class HabitListPagerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val v = inflater.inflate(R.layout.fragment_habit_list_pager, container, false)
+        val v = inflater.inflate(R.layout.fragment_habit_list, container, false)
         return v
     }
 
@@ -66,7 +66,7 @@ class HabitListPagerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         habitRecyclerview.apply {
-            layoutManager = LinearLayoutManager(this@HabitListPagerFragment.context)
+            layoutManager = LinearLayoutManager(this@HabitListFragment.context)
             adapter = habitAdapter
         }
 

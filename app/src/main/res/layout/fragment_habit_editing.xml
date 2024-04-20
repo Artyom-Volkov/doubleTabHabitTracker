@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="@{viewModel.habit.type == Habit.Type.USEFULL}"
-                android:onClick="@{ (view) -> viewModel.usefulHabitRadioButtonClicked()}"
+                android:onClick="@{ (view) -> viewModel.habitTypeRadioButtonClicked(Habit.Type.USEFULL)}"
                 android:text="@string/usefull_habit" />
 
             <RadioButton
@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="@{viewModel.habit.type == Habit.Type.HARMFULL}"
-                android:onClick="@{ (view) -> viewModel.harmfulHabitRadioButtonClicked()}"
+                android:onClick="@{ (view) -> viewModel.habitTypeRadioButtonClicked(Habit.Type.HARMFULL)}"
                 android:text="@string/harmfull_habit" />
         </RadioGroup>
 
