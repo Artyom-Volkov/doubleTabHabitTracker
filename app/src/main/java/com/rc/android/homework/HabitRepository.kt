@@ -20,12 +20,12 @@ class HabitRepository(context: Context) {
 
     fun getHabit(id: Int): Habit = habitDAO.getHabitById(id)
 
-    fun add(habit: Habit){
+    suspend fun add(habit: Habit){
 
         habitDAO.add(habit)
     }
 
-    fun replace(habit: Habit){
+    suspend fun replace(habit: Habit){
 
         habitDAO.update(habit)
     }

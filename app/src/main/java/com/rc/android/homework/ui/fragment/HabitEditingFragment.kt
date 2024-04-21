@@ -15,6 +15,7 @@ import com.rc.android.homework.R
 import com.rc.android.homework.databinding.FragmentHabitEditingBinding
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModel
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModelFactory
+import kotlinx.android.synthetic.main.fragment_habit_editing.*
 
 
 class HabitEditingFragment : Fragment() {
@@ -64,6 +65,9 @@ class HabitEditingFragment : Fragment() {
             if (it == true){
                 findNavController().popBackStack()
             }
+        }
+        viewModel.isSaveButtonEnabled.observe(viewLifecycleOwner){
+            saveHabitButton.isEnabled = it
         }
     }
 

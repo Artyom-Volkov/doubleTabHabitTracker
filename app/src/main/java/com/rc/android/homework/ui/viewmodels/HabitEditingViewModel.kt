@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.rc.android.homework.Habit
 import com.rc.android.homework.HabitRepository
 import com.rc.android.homework.HabitTimePeriod
 import com.rc.android.homework.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HabitEditingViewModel(
     context: Context,
@@ -17,9 +20,11 @@ class HabitEditingViewModel(
     private val habitRepository = HabitRepository(context)
 
     private val mutableHabit: MutableLiveData<HabitEditing> = MutableLiveData()
+    private val mutableIsSaveButtonEnabled: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = true }
     private val mutableIsHaveBeenHabitSaved: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
 
     val habit: LiveData<HabitEditing> = mutableHabit
+    val isSaveButtonEnabled: LiveData<Boolean> = mutableIsSaveButtonEnabled
     val isHaveBeenHabitSaved: LiveData<Boolean> = mutableIsHaveBeenHabitSaved
 
     init {
@@ -77,16 +82,26 @@ class HabitEditingViewModel(
 
     private fun addNewHabit(habit: Habit){
 
-        habitRepository.add(habit)
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            mutableIsSaveButtonEnabled.postValue(false)
 
-        mutableIsHaveBeenHabitSaved.value = true
+            habitRepository.add(habit)
+
+            mutableIsSaveButtonEnabled.postValue(true)
+        }
+        job.invokeOnCompletion { mutableIsHaveBeenHabitSaved.postValue(true) }
     }
 
     private fun habitEdited(habit: Habit){
 
-        habitRepository.replace(habit)
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            mutableIsSaveButtonEnabled.postValue(false)
 
-        mutableIsHaveBeenHabitSaved.value = true
+            habitRepository.replace(habit)
+
+            mutableIsSaveButtonEnabled.postValue(true)
+        }
+        job.invokeOnCompletion { mutableIsHaveBeenHabitSaved.postValue(true) }
     }
 
 }
