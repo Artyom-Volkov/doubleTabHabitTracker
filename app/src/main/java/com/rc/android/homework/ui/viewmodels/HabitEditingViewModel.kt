@@ -86,10 +86,13 @@ class HabitEditingViewModel(
             mutableIsSaveButtonEnabled.postValue(false)
 
             habitRepository.add(habit)
-
+        }
+        job.invokeOnCompletion { throwable ->
+            if (throwable == null){
+                mutableIsHaveBeenHabitSaved.postValue(true)
+            }
             mutableIsSaveButtonEnabled.postValue(true)
         }
-        job.invokeOnCompletion { mutableIsHaveBeenHabitSaved.postValue(true) }
     }
 
     private fun habitEdited(habit: Habit){
@@ -98,10 +101,13 @@ class HabitEditingViewModel(
             mutableIsSaveButtonEnabled.postValue(false)
 
             habitRepository.replace(habit)
-
+        }
+        job.invokeOnCompletion { throwable ->
+            if (throwable == null){
+                mutableIsHaveBeenHabitSaved.postValue(true)
+            }
             mutableIsSaveButtonEnabled.postValue(true)
         }
-        job.invokeOnCompletion { mutableIsHaveBeenHabitSaved.postValue(true) }
     }
 
 }
