@@ -9,10 +9,10 @@ import com.rc.android.homework.Habit
 interface HabitDAO {
 
     @Insert(onConflict = REPLACE)
-    fun add(habit: Habit)
+    suspend fun add(habit: Habit)
 
     @Update
-    fun update(habit: Habit)
+    suspend fun update(habit: Habit)
 
     @Delete
     fun delete(habit: Habit)
