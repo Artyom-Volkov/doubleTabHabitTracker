@@ -11,7 +11,8 @@ data class Habit (
     val type: Type,
     val priority: Int,
     @Embedded val freq: HabitFreq,
-    val color: Int) {
+    val color: Int,
+    var server_uid: String = "") {
 
     @PrimaryKey(autoGenerate = true) var id: Int = 0
 

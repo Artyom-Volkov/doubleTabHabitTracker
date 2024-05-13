@@ -74,6 +74,7 @@ class HabitEditingViewModel(
                     addNewHabit(habit)
                 } else {
                     habit.id = habitId
+                    habit.server_uid = habitRepository.getHabit(habitId).server_uid
                     habitEdited(habit)
                 }
             }

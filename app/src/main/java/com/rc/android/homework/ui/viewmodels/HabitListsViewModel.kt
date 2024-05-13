@@ -1,12 +1,10 @@
 package com.rc.android.homework.ui.viewmodels
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.rc.android.homework.Habit
 import com.rc.android.homework.HabitRepository
+import kotlinx.coroutines.launch
 
 class HabitListsViewModel(context: Context) : ViewModel() {
 
@@ -26,6 +24,10 @@ class HabitListsViewModel(context: Context) : ViewModel() {
 
     init {
         habitListRepository.observeForever(habitRepositoryObserver)
+
+        viewModelScope.launch{
+            HabitRepository(context).updateLocalDatabaseFromServer()
+        }
     }
 
     override fun onCleared() {

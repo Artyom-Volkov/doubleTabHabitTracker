@@ -22,4 +22,7 @@ interface HabitDAO {
 
     @Query("SELECT * FROM habits WHERE id=(:id)")
     fun getHabitById(id: Int): Habit
+
+    @Query("SELECT * FROM habits WHERE server_uid=(:uid)")
+    suspend fun getHabitByServerId(uid: String): Habit?
 }
