@@ -1,12 +1,12 @@
-package com.rc.android.homework.server
+package com.rc.android.homework.data.server
 
-import com.rc.android.homework.Habit
-import com.rc.android.homework.server.capsule.HabitUID
+import com.rc.android.homework.domain.Habit
+import com.rc.android.homework.data.server.capsule.HabitUID
 import retrofit2.Call
 import retrofit2.http.*
 
 
-interface HabitTrackerService {
+interface HabitTrackerNetworkService {
 
     companion object{
         private const val AUTHORIZATION_TOKEN = "ad947bd0-28d2-441b-b3c5-a4b74101111f"

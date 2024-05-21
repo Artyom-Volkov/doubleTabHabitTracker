@@ -6,8 +6,8 @@
     <data>
         <import type="android.view.View"/>
         <import type="android.text.TextUtils"/>
-        <import type="com.rc.android.homework.Habit"/>
-        <import type="com.rc.android.homework.HabitFreq"/>
+        <import type="com.rc.android.homework.domain.Habit"/>
+        <import type="com.rc.android.homework.domain.HabitFreq"/>
         <import type="com.rc.android.homework.ui.binding.ConverterBinding"/>
 
         <variable

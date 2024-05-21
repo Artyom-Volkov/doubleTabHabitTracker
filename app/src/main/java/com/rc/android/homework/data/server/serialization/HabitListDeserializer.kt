@@ -1,9 +1,9 @@
-package com.rc.android.homework.server.serialization
+package com.rc.android.homework.data.server.serialization
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.rc.android.homework.Habit
+import com.rc.android.homework.domain.Habit
 import java.lang.reflect.Type
 
 class HabitListDeserializer: JsonDeserializer<ArrayList<Habit>> {

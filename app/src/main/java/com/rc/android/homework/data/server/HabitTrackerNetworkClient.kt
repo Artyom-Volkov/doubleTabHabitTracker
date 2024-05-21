@@ -1,12 +1,12 @@
-package com.rc.android.homework.server
+package com.rc.android.homework.data.server
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.rc.android.homework.Habit
-import com.rc.android.homework.server.capsule.HabitUID
-import com.rc.android.homework.server.serialization.HabitListDeserializer
-import com.rc.android.homework.server.serialization.HabitSerializer
-import com.rc.android.homework.server.serialization.HabitUIDDeserializer
+import com.rc.android.homework.data.server.capsule.HabitUID
+import com.rc.android.homework.data.server.serialization.HabitListDeserializer
+import com.rc.android.homework.data.server.serialization.HabitSerializer
+import com.rc.android.homework.data.server.serialization.HabitUIDDeserializer
+import com.rc.android.homework.domain.Habit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,7 +20,7 @@ class HabitTrackerNetworkClient {
         private const val BASE_URL = "https://droid-test-server.doubletapp.ru/api/"
     }
 
-    private val service: HabitTrackerService
+    private val networkService: HabitTrackerNetworkService
 
     init {
         val okHttpClient = OkHttpClient().newBuilder()
@@ -40,18 +40,18 @@ class HabitTrackerNetworkClient {
             .client(okHttpClient)
             .build()
 
-        service = retrofit.create(HabitTrackerService::class.java)
+        networkService = retrofit.create(HabitTrackerNetworkService::class.java)
     }
 
     suspend fun getHabitList(): List<Habit>{
-        return service.getHabitList()
+        return networkService.getHabitList()
     }
 
     suspend fun addHabit(habit: Habit): HabitUID {
-        return service.addHabit(habit)
+        return networkService.addHabit(habit)
     }
 
-    suspend fun replaceHabit(habit: Habit): HabitUID{
-        return service.addHabit(habit)
+    suspend fun replaceHabit(habit: Habit): HabitUID {
+        return networkService.addHabit(habit)
     }
 }

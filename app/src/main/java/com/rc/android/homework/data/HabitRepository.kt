@@ -1,20 +1,22 @@
-package com.rc.android.homework
+package com.rc.android.homework.data
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import com.rc.android.homework.room.HabitDAO
-import com.rc.android.homework.room.HabitRoomDatabase
-import com.rc.android.homework.server.HabitTrackerNetworkClient
-import com.rc.android.homework.server.capsule.HabitUID
+import com.rc.android.homework.data.room.HabitDAO
+import com.rc.android.homework.data.room.HabitRoomDatabase
+import com.rc.android.homework.data.server.HabitTrackerNetworkClient
+import com.rc.android.homework.data.server.capsule.HabitUID
+import com.rc.android.homework.domain.Habit
+import com.rc.android.homework.domain.HabitRepositoryI
+import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
 
-class HabitRepository(context: Context) {
+class HabitRepository(context: Context): HabitRepositoryI {
 
     private val networkClient: HabitTrackerNetworkClient = HabitTrackerNetworkClient()
     private val habitDAO: HabitDAO
 
-    val habits: LiveData<List<Habit>>
+    val habits: Flow<List<Habit>>
         get() = habitDAO.getAllHabits()
 
     init {
@@ -22,7 +24,7 @@ class HabitRepository(context: Context) {
         habitDAO = habiRoomDatabase.getHabitDAO()
     }
 
-    fun getHabit(id: Int): Habit = habitDAO.getHabitById(id)
+    override fun getHabit(id: Int): Habit = habitDAO.getHabitById(id)
 
     suspend fun updateLocalDatabaseFromServer(){
 
@@ -43,7 +45,7 @@ class HabitRepository(context: Context) {
         }
     }
 
-    suspend fun add(habit: Habit){
+    override suspend fun add(habit: Habit){
 
         try {
             val habitUID: HabitUID = networkClient.addHabit(habit)
@@ -54,7 +56,7 @@ class HabitRepository(context: Context) {
         }
     }
 
-    suspend fun replace(habit: Habit){
+    override suspend fun replace(habit: Habit){
 
         try {
             networkClient.replaceHabit(habit)

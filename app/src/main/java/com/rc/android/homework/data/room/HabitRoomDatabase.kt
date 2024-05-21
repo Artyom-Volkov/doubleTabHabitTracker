@@ -1,11 +1,11 @@
-package com.rc.android.homework.room
+package com.rc.android.homework.data.room
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.rc.android.homework.Habit
+import com.rc.android.homework.domain.Habit
 
 @Database(entities = [Habit::class], version = 2, exportSchema = false)
 @TypeConverters(HabitConverters::class)

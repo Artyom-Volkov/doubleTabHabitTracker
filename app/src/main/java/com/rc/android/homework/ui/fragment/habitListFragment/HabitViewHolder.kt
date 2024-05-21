@@ -1,7 +1,7 @@
 package com.rc.android.homework.ui.fragment.habitListFragment
 
 import androidx.recyclerview.widget.RecyclerView
-import com.rc.android.homework.Habit
+import com.rc.android.homework.domain.Habit
 import com.rc.android.homework.R
 import com.rc.android.homework.databinding.HabitCardBinding
 

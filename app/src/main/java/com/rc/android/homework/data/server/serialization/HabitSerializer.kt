@@ -1,9 +1,9 @@
-package com.rc.android.homework.server.serialization
+package com.rc.android.homework.data.server.serialization
 
 import com.google.gson.*
-import com.rc.android.homework.Habit
-import com.rc.android.homework.HabitFreq
-import com.rc.android.homework.HabitTimePeriod
+import com.rc.android.homework.domain.Habit
+import com.rc.android.homework.domain.HabitFreq
+import com.rc.android.homework.domain.HabitTimePeriod
 import java.lang.reflect.Type
 import java.util.*
 

@@ -2,13 +2,13 @@ package com.rc.android.homework.ui.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.*
-import com.rc.android.homework.Habit
-import com.rc.android.homework.HabitRepository
+import com.rc.android.homework.data.HabitRepository
+import com.rc.android.homework.domain.Habit
 import kotlinx.coroutines.launch
 
 class HabitListsViewModel(context: Context) : ViewModel() {
 
-    private val habitListRepository: LiveData<List<Habit>> = HabitRepository(context).habits
+    private val habitListRepository: LiveData<List<Habit>> = HabitRepository(context).habits.asLiveData()
 
     private val mutableHabitList: MutableLiveData<List<Habit>> = MutableLiveData()
     private var habitNameFilter = ""

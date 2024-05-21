@@ -1,7 +1,7 @@
 package com.rc.android.homework.ui.fragment.habitListFragment
 
 import androidx.recyclerview.widget.DiffUtil
-import com.rc.android.homework.Habit
+import com.rc.android.homework.domain.Habit
 
 class HabitDiffCallback(private val oldList: List<Habit>, private val newList: List<Habit>) : DiffUtil.Callback() {
 

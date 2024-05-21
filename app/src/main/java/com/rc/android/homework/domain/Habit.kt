@@ -1,4 +1,4 @@
-package com.rc.android.homework
+package com.rc.android.homework.domain
 
 import androidx.room.Embedded
 import androidx.room.Entity

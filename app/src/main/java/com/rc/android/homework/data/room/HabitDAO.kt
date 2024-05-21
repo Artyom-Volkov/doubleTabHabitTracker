@@ -1,9 +1,9 @@
-package com.rc.android.homework.room
+package com.rc.android.homework.data.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.Companion.REPLACE
-import com.rc.android.homework.Habit
+import com.rc.android.homework.domain.Habit
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HabitDAO {
@@ -18,7 +18,7 @@ interface HabitDAO {
     fun delete(habit: Habit)
 
     @Query("SELECT * FROM habits")
-    fun getAllHabits(): LiveData<List<Habit>>
+    fun getAllHabits(): Flow<List<Habit>>
 
     @Query("SELECT * FROM habits WHERE id=(:id)")
     fun getHabitById(id: Int): Habit

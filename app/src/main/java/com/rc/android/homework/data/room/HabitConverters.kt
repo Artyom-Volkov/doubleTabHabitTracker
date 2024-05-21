@@ -1,8 +1,8 @@
-package com.rc.android.homework.room
+package com.rc.android.homework.data.room
 
 import androidx.room.TypeConverter
-import com.rc.android.homework.Habit
-import com.rc.android.homework.HabitTimePeriod
+import com.rc.android.homework.domain.Habit
+import com.rc.android.homework.domain.HabitTimePeriod
 
 class HabitConverters {
 

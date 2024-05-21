@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rc.android.homework.Habit
+import com.rc.android.homework.domain.Habit
 import com.rc.android.homework.R
 import com.rc.android.homework.ui.fragment.HabitEditingFragment
 import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment

@@ -1,9 +1,9 @@
-package com.rc.android.homework.server.serialization
+package com.rc.android.homework.data.server.serialization
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.rc.android.homework.server.capsule.HabitUID
+import com.rc.android.homework.data.server.capsule.HabitUID
 import java.lang.reflect.Type
 
 class HabitUIDDeserializer : JsonDeserializer<HabitUID> {
