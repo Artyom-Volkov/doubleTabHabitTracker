@@ -8,13 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rc.android.homework.domain.Habit
+import com.rc.android.homework.HabitTrackerApplication
 import com.rc.android.homework.R
+import com.rc.android.homework.domain.Habit
+import com.rc.android.homework.domain.HabitTracker
 import com.rc.android.homework.ui.fragment.HabitEditingFragment
 import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment
 import com.rc.android.homework.ui.viewmodels.HabitListsViewModel
 import com.rc.android.homework.ui.viewmodels.HabitListsViewModelFactory
 import kotlinx.android.synthetic.main.fragment_habit_list.*
+import javax.inject.Inject
 
 class HabitListFragment : Fragment() {
 
@@ -35,6 +38,9 @@ class HabitListFragment : Fragment() {
 
     private lateinit var viewModel: HabitListsViewModel
 
+    @Inject
+    lateinit var habitTracker: HabitTracker
+
     private var habitType: Habit.Type? = null
 
     private val habitAdapter: HabitAdapter = HabitAdapter { habitId -> onHabitClicked(habitId) }
@@ -45,10 +51,11 @@ class HabitListFragment : Fragment() {
             habitType = Habit.Type.values().get( it.getInt(HABIT_TYPE))
         }
 
+        (requireActivity().application as HabitTrackerApplication).appComponent.inject(this)
+
         val parentFragment = requireParentFragment()
         if (parentFragment is HabitListsFragment) {
-
-            viewModel = ViewModelProvider(parentFragment, HabitListsViewModelFactory(requireContext()))
+            viewModel = ViewModelProvider(parentFragment, HabitListsViewModelFactory(habitTracker))
                 .get(HabitListsViewModel::class.java)
         }
 

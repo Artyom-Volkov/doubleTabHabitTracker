@@ -2,7 +2,6 @@ package com.rc.android.homework
 
 import android.app.Application
 import com.rc.android.homework.data.HabitRepositoryModule
-import com.rc.android.homework.domain.HabitTrackerModule
 
 class HabitTrackerApplication: Application() {
 
@@ -16,7 +15,6 @@ class HabitTrackerApplication: Application() {
         appComponent = DaggerAppComponent
             .builder()
             .habitRepositoryModule(HabitRepositoryModule(this))
-            .habitTrackerModule(HabitTrackerModule(this))
             .build()
     }
 

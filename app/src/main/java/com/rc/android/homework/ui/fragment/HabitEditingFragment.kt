@@ -9,13 +9,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.rc.android.homework.domain.Habit
-import com.rc.android.homework.data.HabitRepository
+import com.rc.android.homework.HabitTrackerApplication
 import com.rc.android.homework.R
 import com.rc.android.homework.databinding.FragmentHabitEditingBinding
+import com.rc.android.homework.domain.Habit
+import com.rc.android.homework.domain.HabitTracker
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModel
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModelFactory
 import kotlinx.android.synthetic.main.fragment_habit_editing.*
+import javax.inject.Inject
 
 
 class HabitEditingFragment : Fragment() {
@@ -30,18 +32,24 @@ class HabitEditingFragment : Fragment() {
 
     private lateinit var viewModel: HabitEditingViewModel
 
+    @Inject
+    lateinit var habitTracker: HabitTracker
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        (requireActivity().application as HabitTrackerApplication).appComponent.inject(this)
+
         arguments?.let { args ->
             habitId = args.getInt(HABIT_ID)
             habitId?.let {
 
-                val habitRepository = HabitRepository(requireContext())
-                habit = habitRepository.getHabit(it)
+                //val habitRepository = HabitRepository(requireContext())
+                habit = habitTracker.getHabit(it)
             }
         }
 
-        viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(requireContext(), habitId, ::makeShortToast))
+        viewModel = ViewModelProvider(this, HabitEditingViewModelFactory(habitTracker, habitId, ::makeShortToast))
             .get(HabitEditingViewModel::class.java)
     }
 

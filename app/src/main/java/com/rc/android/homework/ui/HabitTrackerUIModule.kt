@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class HabitTrackerUIModule(private val habitRepository: HabitRepositoryI) {
+class HabitTrackerUIModule() {
 
     @Provides
-    fun provideHabitTracker(): HabitTracker = HabitTracker(habitRepository)
+    fun provideHabitTracker(habitRepository: HabitRepositoryI): HabitTracker = HabitTracker(habitRepository)
 }

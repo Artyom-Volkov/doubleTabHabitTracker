@@ -1,23 +1,22 @@
 package com.rc.android.homework.ui.viewmodels
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rc.android.homework.R
-import com.rc.android.homework.data.HabitRepository
 import com.rc.android.homework.domain.Habit
 import com.rc.android.homework.domain.HabitTimePeriod
+import com.rc.android.homework.domain.HabitTracker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HabitEditingViewModel(
-    context: Context,
+    private val habitTracker: HabitTracker,
     private val habitId: Int?,
     private val onMakeShortToast : (Int) -> Unit ) : ViewModel() {
 
-    private val habitRepository = HabitRepository(context)
+    //private val habitRepository = HabitRepository(context)
 
     private val mutableHabit: MutableLiveData<HabitEditing> = MutableLiveData()
     private val mutableIsSaveButtonEnabled: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = true }
@@ -31,7 +30,7 @@ class HabitEditingViewModel(
         mutableHabit.value = if (habitId == null) {
             HabitEditing(null)
         } else {
-            HabitEditing( habitRepository.getHabit(habitId))
+            HabitEditing( habitTracker.getHabit(habitId))
         }
     }
 
@@ -74,7 +73,7 @@ class HabitEditingViewModel(
                     addNewHabit(habit)
                 } else {
                     habit.id = habitId
-                    habit.server_uid = habitRepository.getHabit(habitId).server_uid
+                    habit.server_uid = habitTracker.getHabit(habitId).server_uid
                     habitEdited(habit)
                 }
             }
@@ -86,7 +85,7 @@ class HabitEditingViewModel(
         val job = viewModelScope.launch(Dispatchers.IO) {
             mutableIsSaveButtonEnabled.postValue(false)
 
-            habitRepository.add(habit)
+            habitTracker.add(habit)
         }
         job.invokeOnCompletion { throwable ->
             if (throwable == null){
@@ -101,7 +100,7 @@ class HabitEditingViewModel(
         val job = viewModelScope.launch(Dispatchers.IO) {
             mutableIsSaveButtonEnabled.postValue(false)
 
-            habitRepository.replace(habit)
+            habitTracker.replace(habit)
         }
         job.invokeOnCompletion { throwable ->
             if (throwable == null){

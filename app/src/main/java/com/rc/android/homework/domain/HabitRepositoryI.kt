@@ -1,6 +1,12 @@
 package com.rc.android.homework.domain
 
+import kotlinx.coroutines.flow.Flow
+
 interface HabitRepositoryI {
+
+    val habits: Flow<List<Habit>>
+
+    suspend fun updateLocalDatabaseFromServer()
 
     fun getHabit(id: Int): Habit
 

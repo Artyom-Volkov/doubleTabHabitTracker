@@ -1,8 +1,6 @@
 package com.rc.android.homework.data
 
-import android.content.Context
 import com.rc.android.homework.data.room.HabitDAO
-import com.rc.android.homework.data.room.HabitRoomDatabase
 import com.rc.android.homework.data.server.HabitTrackerNetworkClient
 import com.rc.android.homework.data.server.capsule.HabitUID
 import com.rc.android.homework.domain.Habit
@@ -11,22 +9,18 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
 
-class HabitRepository(context: Context): HabitRepositoryI {
+class HabitRepository(private val networkClient: HabitTrackerNetworkClient,
+                      private val habitDAO: HabitDAO): HabitRepositoryI {
 
-    private val networkClient: HabitTrackerNetworkClient = HabitTrackerNetworkClient()
-    private val habitDAO: HabitDAO
-
-    val habits: Flow<List<Habit>>
+    override val habits: Flow<List<Habit>>
         get() = habitDAO.getAllHabits()
 
     init {
-        val habiRoomDatabase = HabitRoomDatabase.getInstance(context)
-        habitDAO = habiRoomDatabase.getHabitDAO()
     }
 
     override fun getHabit(id: Int): Habit = habitDAO.getHabitById(id)
 
-    suspend fun updateLocalDatabaseFromServer(){
+    override suspend fun updateLocalDatabaseFromServer(){
 
         val serverHabitList = networkClient.getHabitList()
 

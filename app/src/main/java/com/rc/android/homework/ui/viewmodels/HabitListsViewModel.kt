@@ -1,14 +1,13 @@
 package com.rc.android.homework.ui.viewmodels
 
-import android.content.Context
 import androidx.lifecycle.*
-import com.rc.android.homework.data.HabitRepository
 import com.rc.android.homework.domain.Habit
+import com.rc.android.homework.domain.HabitTracker
 import kotlinx.coroutines.launch
 
-class HabitListsViewModel(context: Context) : ViewModel() {
+class HabitListsViewModel(habitTracker: HabitTracker) : ViewModel() {
 
-    private val habitListRepository: LiveData<List<Habit>> = HabitRepository(context).habits.asLiveData()
+    private val habitListRepository: LiveData<List<Habit>> = habitTracker.habits.asLiveData()
 
     private val mutableHabitList: MutableLiveData<List<Habit>> = MutableLiveData()
     private var habitNameFilter = ""
@@ -26,7 +25,7 @@ class HabitListsViewModel(context: Context) : ViewModel() {
         habitListRepository.observeForever(habitRepositoryObserver)
 
         viewModelScope.launch{
-            HabitRepository(context).updateLocalDatabaseFromServer()
+            habitTracker.updateLocalDatabaseFromServer()
         }
     }
 

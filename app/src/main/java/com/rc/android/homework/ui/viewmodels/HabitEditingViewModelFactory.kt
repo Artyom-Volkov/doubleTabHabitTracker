@@ -1,16 +1,16 @@
 package com.rc.android.homework.ui.viewmodels
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.rc.android.homework.domain.HabitTracker
 
 class HabitEditingViewModelFactory(
-    private val context: Context,
+    private val habitTracker: HabitTracker,
     private val habitId: Int?,
     private val onMakeShortToast : (Int) -> Unit  ) : ViewModelProvider.Factory  {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        val result: T = modelClass.cast(HabitEditingViewModel(context, habitId, onMakeShortToast))
+        val result: T = modelClass.cast(HabitEditingViewModel(habitTracker, habitId, onMakeShortToast))
             ?: throw java.lang.IllegalArgumentException("Unknown ViewModel class")
         return result
     }
