@@ -43,7 +43,7 @@ class HabitListFragment : Fragment() {
 
     private var habitType: Habit.Type? = null
 
-    private val habitAdapter: HabitAdapter = HabitAdapter { habitId -> onHabitClicked(habitId) }
+    private val habitAdapter: HabitAdapter = HabitAdapter(::onHabitEditingClicked, ::onHabitDoneClicked)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,11 +84,15 @@ class HabitListFragment : Fragment() {
 
     }
 
-    private fun onHabitClicked(habitId: Int){
+    private fun onHabitEditingClicked(habitId: Int){
 
         val bundle = Bundle()
         bundle.putInt(HabitEditingFragment.HABIT_ID, habitId)
         findNavController().navigate(R.id.action_habitListsFragment_to_habitEditingFragment, bundle)
+    }
+
+    private fun onHabitDoneClicked(habitId: Int){
+
     }
 
 }

@@ -1,11 +1,13 @@
 package com.rc.android.homework.ui.fragment.habitListFragment
 
 import androidx.recyclerview.widget.RecyclerView
-import com.rc.android.homework.domain.Habit
 import com.rc.android.homework.R
 import com.rc.android.homework.databinding.HabitCardBinding
+import com.rc.android.homework.domain.Habit
 
-class HabitViewHolder(val habitCardBinding : HabitCardBinding, val onClicked: (Int) -> Unit )
+class HabitViewHolder(val habitCardBinding : HabitCardBinding,
+                      val onHabitCardClicked: (Int) -> Unit,
+                      val onHabitDoneBtnClicked: (Int) -> Unit)
     : RecyclerView.ViewHolder(habitCardBinding.root) {
 
     fun bind(habit: Habit){
@@ -21,7 +23,8 @@ class HabitViewHolder(val habitCardBinding : HabitCardBinding, val onClicked: (I
                 else -> {context.getString(R.string.harmfull_habit)}
             }
 
-            itemView.setOnClickListener { onClicked(adapterPosition) }
+            itemView.setOnClickListener { onHabitCardClicked(adapterPosition) }
+            habitDoneBtn.setOnClickListener{ onHabitDoneBtnClicked(adapterPosition) }
 
             habitPriorityTv.text = habit.priority.toString()
 

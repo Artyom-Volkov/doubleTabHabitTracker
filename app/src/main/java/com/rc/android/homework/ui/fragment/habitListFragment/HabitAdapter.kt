@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rc.android.homework.domain.Habit
 import com.rc.android.homework.databinding.HabitCardBinding
+import com.rc.android.homework.domain.Habit
 
 
 class HabitAdapter (
-    val onClicked: (Int) -> Unit
+    val onHabitEditingClicked: (Int) -> Unit,
+    val onHabitDoneClicked: (Int) -> Unit
 ) : RecyclerView.Adapter<HabitViewHolder>() {
 
     private var habits: List<Habit> = listOf()
@@ -18,7 +19,7 @@ class HabitAdapter (
         val inflater = LayoutInflater.from(parent.context)
         val habitCardBinding = HabitCardBinding.inflate(inflater, parent, false)
 
-        val habitViewHolder = HabitViewHolder( habitCardBinding, ::onHabitClicked  )
+        val habitViewHolder = HabitViewHolder( habitCardBinding, ::onHabitCardClicked, ::onHabitDoneBtnClicked  )
 
         return habitViewHolder
     }
@@ -37,10 +38,16 @@ class HabitAdapter (
         holder.bind(habits[position])
     }
 
-    private fun onHabitClicked(adapterPosition: Int){
+    private fun onHabitCardClicked(adapterPosition: Int){
         val habit = habits[adapterPosition]
 
-        onClicked(habit.id)
+        onHabitEditingClicked(habit.id)
+    }
+
+    private fun onHabitDoneBtnClicked(adapterPosition: Int){
+        val habit = habits[adapterPosition]
+
+        onHabitDoneClicked(habit.id)
     }
 
 }

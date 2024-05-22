@@ -60,4 +60,8 @@ class HabitRepository(private val networkClient: HabitTrackerNetworkClient,
 
         }
     }
+
+    override suspend fun habitDone(habit: Habit) {
+        TODO("Not yet implemented")
+    }
 }
