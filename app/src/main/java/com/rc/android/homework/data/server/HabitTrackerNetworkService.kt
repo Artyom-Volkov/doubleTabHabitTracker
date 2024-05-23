@@ -1,7 +1,8 @@
 package com.rc.android.homework.data.server
 
-import com.rc.android.homework.domain.Habit
+import com.rc.android.homework.data.server.capsule.HabitDone
 import com.rc.android.homework.data.server.capsule.HabitUID
+import com.rc.android.homework.domain.Habit
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -26,5 +27,5 @@ interface HabitTrackerNetworkService {
 
     @Headers("Authorization: $AUTHORIZATION_TOKEN")
     @POST("habit_done")
-    suspend fun  habitWasCompleted(uid: String): Call<String>
+    suspend fun habitWasDone(@Body habitDone: HabitDone): Call<Void>
 }

@@ -2,11 +2,13 @@ package com.rc.android.homework.data
 
 import com.rc.android.homework.data.room.HabitDAO
 import com.rc.android.homework.data.server.HabitTrackerNetworkClient
+import com.rc.android.homework.data.server.capsule.HabitDone
 import com.rc.android.homework.data.server.capsule.HabitUID
 import com.rc.android.homework.domain.Habit
 import com.rc.android.homework.domain.HabitRepositoryI
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
+import java.util.*
 
 
 class HabitRepository(private val networkClient: HabitTrackerNetworkClient,
@@ -62,6 +64,12 @@ class HabitRepository(private val networkClient: HabitTrackerNetworkClient,
     }
 
     override suspend fun habitDone(habit: Habit) {
-        TODO("Not yet implemented")
+
+        val habitDone = HabitDone(
+            date = Date().time,
+            uid = habit.server_uid
+        )
+
+        networkClient.habitDone(habitDone)
     }
 }

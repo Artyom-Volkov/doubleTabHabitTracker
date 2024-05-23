@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rc.android.homework.HabitTrackerApplication
@@ -17,6 +18,8 @@ import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment
 import com.rc.android.homework.ui.viewmodels.HabitListsViewModel
 import com.rc.android.homework.ui.viewmodels.HabitListsViewModelFactory
 import kotlinx.android.synthetic.main.fragment_habit_list.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HabitListFragment : Fragment() {
@@ -93,6 +96,9 @@ class HabitListFragment : Fragment() {
 
     private fun onHabitDoneClicked(habitId: Int){
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            habitTracker.habitDone(habitId)
+        }
     }
 
 }

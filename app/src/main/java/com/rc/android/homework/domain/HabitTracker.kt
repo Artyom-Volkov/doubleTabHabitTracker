@@ -15,6 +15,10 @@ class HabitTracker(private val habitRepository: HabitRepositoryI) {
 
     suspend fun replace(habit: Habit) = habitRepository.replace(habit)
 
-    fun habitDone(habit: Habit) {//TODO
+    suspend fun habitDone(habitId: Int) {
+
+        val habit = getHabit(habitId)
+
+        habitRepository.habitDone(habit)
     }
 }
