@@ -6,26 +6,29 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.rc.android.homework.R
-import kotlinx.android.synthetic.main.activity_main.*
+import com.rc.android.homework.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(){
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setTitle(R.string.app_name)
 
         val drawerToggle = ActionBarDrawerToggle(this,
-            navigationDrawerLayout,
+            binding.navigationDrawerLayout,
             R.string.open_drawer,
             R.string.close_drawer
         )
-        navigationDrawerLayout.addDrawerListener(drawerToggle)
+        binding.navigationDrawerLayout.addDrawerListener(drawerToggle)
 
         val navHostController = (supportFragmentManager.findFragmentById(R.id.containerMainActivity) as NavHostFragment).navController
-        navigationView.setupWithNavController(navHostController)
+        binding.navigationView.setupWithNavController(navHostController)
 
         if (savedInstanceState == null){
         }

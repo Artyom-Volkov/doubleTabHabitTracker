@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "project"
 include ':app'
+include ':HabitTracker'
+include ':HabitRepository'

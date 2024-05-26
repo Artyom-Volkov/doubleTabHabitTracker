@@ -16,7 +16,6 @@ import com.rc.android.homework.domain.Habit
 import com.rc.android.homework.domain.HabitTracker
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModel
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModelFactory
-import kotlinx.android.synthetic.main.fragment_habit_editing.*
 import javax.inject.Inject
 
 
@@ -29,6 +28,8 @@ class HabitEditingFragment : Fragment() {
 
     private var habit: Habit? = null
     private var habitId: Int? = null
+
+    private lateinit var binding: FragmentHabitEditingBinding
 
     private lateinit var viewModel: HabitEditingViewModel
 
@@ -57,7 +58,7 @@ class HabitEditingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        val binding = DataBindingUtil.inflate<FragmentHabitEditingBinding>(inflater,
+        binding = DataBindingUtil.inflate<FragmentHabitEditingBinding>(inflater,
             R.layout.fragment_habit_editing, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -75,7 +76,7 @@ class HabitEditingFragment : Fragment() {
             }
         }
         viewModel.isSaveButtonEnabled.observe(viewLifecycleOwner){
-            saveHabitButton.isEnabled = it
+            binding.saveHabitButton.isEnabled = it
         }
     }
 

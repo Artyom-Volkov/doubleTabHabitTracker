@@ -8,9 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rc.android.homework.R
-import kotlinx.android.synthetic.main.fragment_habit_lists.*
+import com.rc.android.homework.databinding.FragmentHabitListsBinding
 
 class HabitListsFragment : Fragment() {
+
+    private var _binding: FragmentHabitListsBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var habitListsFragmentAdapter: HabitListsFragmentAdapter
 
@@ -24,14 +27,15 @@ class HabitListsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fragment_habit_lists, container, false)
+        _binding = FragmentHabitListsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         habitListsFragmentAdapter = HabitListsFragmentAdapter(this)
-        pager.adapter = habitListsFragmentAdapter
+        binding.pager.adapter = habitListsFragmentAdapter
 
         habitListsFragmentAdapter.notifyDataSetChanged()
 
@@ -40,12 +44,17 @@ class HabitListsFragment : Fragment() {
             getString(R.string.harmfull_habit),
         )
 
-        TabLayoutMediator(tab_layout, pager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             tab.text = tabNames[position]
         }.attach()
 
-        addHabitFAB.setOnClickListener { addHabitFABClicked() }
+        binding.addHabitFAB.setOnClickListener { addHabitFABClicked() }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun addHabitFABClicked(){

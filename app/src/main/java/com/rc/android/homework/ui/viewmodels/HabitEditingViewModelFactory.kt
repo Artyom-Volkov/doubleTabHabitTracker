@@ -9,7 +9,7 @@ class HabitEditingViewModelFactory(
     private val habitId: Int?,
     private val onMakeShortToast : (Int) -> Unit  ) : ViewModelProvider.Factory  {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val result: T = modelClass.cast(HabitEditingViewModel(habitTracker, habitId, onMakeShortToast))
             ?: throw java.lang.IllegalArgumentException("Unknown ViewModel class")
         return result

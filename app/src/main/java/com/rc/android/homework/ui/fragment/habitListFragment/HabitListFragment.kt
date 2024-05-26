@@ -11,13 +11,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rc.android.homework.HabitTrackerApplication
 import com.rc.android.homework.R
+import com.rc.android.homework.databinding.FragmentHabitListBinding
 import com.rc.android.homework.domain.Habit
 import com.rc.android.homework.domain.HabitTracker
 import com.rc.android.homework.ui.fragment.HabitEditingFragment
 import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment
 import com.rc.android.homework.ui.viewmodels.HabitListsViewModel
 import com.rc.android.homework.ui.viewmodels.HabitListsViewModelFactory
-import kotlinx.android.synthetic.main.fragment_habit_list.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,6 +38,9 @@ class HabitListFragment : Fragment() {
             return fragment
         }
     }
+
+    private var _binding: FragmentHabitListBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var viewModel: HabitListsViewModel
 
@@ -68,14 +71,14 @@ class HabitListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val v = inflater.inflate(R.layout.fragment_habit_list, container, false)
-        return v
+        _binding = FragmentHabitListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        habitRecyclerview.apply {
+        binding.habitRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@HabitListFragment.context)
             adapter = habitAdapter
         }
@@ -85,6 +88,11 @@ class HabitListFragment : Fragment() {
             habitAdapter.setHabitList(filterList)
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun onHabitEditingClicked(habitId: Int){
