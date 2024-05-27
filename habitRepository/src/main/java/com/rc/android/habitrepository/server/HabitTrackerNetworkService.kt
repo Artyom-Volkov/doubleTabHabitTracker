@@ -4,6 +4,7 @@ import com.rc.android.habitrepository.server.capsule.HabitDone
 import com.rc.android.habitrepository.server.capsule.HabitUID
 import com.rc.android.habittracker.Habit
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -32,5 +33,5 @@ interface HabitTrackerNetworkService {
 
     @Headers("Authorization: $AUTHORIZATION_TOKEN")
     @POST("habit_done")
-    suspend fun habitWasDone(@Body habitDone: HabitDone): Call<Void>
+    suspend fun habitWasDone(@Body habitDone: HabitDone): Response<Unit>
 }

@@ -6,7 +6,7 @@ import com.rc.android.habittracker.HabitFreq
 class HabitEditing (habit: Habit?) {
 
     var name: String? = null
-    var decr: String = ""
+    var decr: String? = null
     var type: Habit.Type? = null
     var priority: Int? = null
     var freq: HabitFreqEditing = HabitFreqEditing(null)

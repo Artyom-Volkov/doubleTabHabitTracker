@@ -67,6 +67,11 @@ class HabitEditingViewModel(
                 return
             }
 
+            if (decr.isNullOrEmpty()){
+                onMakeShortToast(R.string.warning_choose_habit_description)
+                return
+            }
+
             val habit: Habit? = getHabit()
             if (habit != null){
                 if (habitId == null){

@@ -30,6 +30,7 @@
     <string name="warning_choose_habit_type">Укажите тип привычки</string>
     <string name="warning_choose_habit_execution_number">Укажите кол-во выполнения привычки</string>
     <string name="warning_choose_habit_count_time_period">Укажите периодичность привычки</string>
+    <string name="warning_choose_habit_description">Укажите описание привычки</string>
     <!---->
 
     <!--fragment_bottom_sheet-->
@@ -56,10 +57,8 @@
         <item>лет</item>
     </string-array>
     <string-array name="HabitPriorities">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
     </string-array>
 </resources>

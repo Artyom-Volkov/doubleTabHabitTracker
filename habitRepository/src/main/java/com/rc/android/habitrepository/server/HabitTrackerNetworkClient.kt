@@ -8,10 +8,11 @@ import com.rc.android.habitrepository.server.serialization.HabitDoneSerializer
 import com.rc.android.habitrepository.server.serialization.HabitListDeserializer
 import com.rc.android.habitrepository.server.serialization.HabitSerializer
 import com.rc.android.habitrepository.server.serialization.HabitUIDDeserializer
+import com.rc.android.habitrepository.server.serialization.NullOnEmptyConverterFactory
 import com.rc.android.habittracker.Habit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
@@ -42,6 +43,7 @@ class HabitTrackerNetworkClient {
 
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .addConverterFactory(NullOnEmptyConverterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build()
@@ -61,7 +63,7 @@ class HabitTrackerNetworkClient {
         return networkService.addHabit(habit)
     }
 
-    suspend fun habitDone(habitDone: HabitDone): Call<Void> {
+    suspend fun habitDone(habitDone: HabitDone): Response<Unit> {
         return networkService.habitWasDone(habitDone)
     }
 }
