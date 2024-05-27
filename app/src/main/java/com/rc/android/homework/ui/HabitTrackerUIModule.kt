@@ -1,12 +1,16 @@
 package com.rc.android.homework.ui
 
-import com.rc.android.homework.domain.HabitRepositoryI
-import com.rc.android.homework.domain.HabitTracker
+import android.content.Context
+import com.rc.android.habittracker.HabitRepositoryI
+import com.rc.android.habittracker.HabitTracker
 import dagger.Module
 import dagger.Provides
 
 @Module
-class HabitTrackerUIModule() {
+class HabitTrackerUIModule(private val context: Context) {
+
+    @Provides
+    fun provideContext() = context
 
     @Provides
     fun provideHabitTracker(habitRepository: HabitRepositoryI): HabitTracker = HabitTracker(habitRepository)

@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rc.android.habittracker.Habit
+import com.rc.android.habittracker.HabitTracker
 import com.rc.android.homework.HabitTrackerApplication
 import com.rc.android.homework.R
 import com.rc.android.homework.databinding.FragmentHabitListBinding
-import com.rc.android.homework.domain.Habit
-import com.rc.android.homework.domain.HabitTracker
 import com.rc.android.homework.ui.fragment.HabitEditingFragment
 import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment
 import com.rc.android.homework.ui.viewmodels.HabitListsViewModel

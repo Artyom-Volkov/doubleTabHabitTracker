@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rc.android.habittracker.Habit
+import com.rc.android.habittracker.HabitTimePeriod
+import com.rc.android.habittracker.HabitTracker
 import com.rc.android.homework.R
-import com.rc.android.homework.domain.Habit
-import com.rc.android.homework.domain.HabitTimePeriod
-import com.rc.android.homework.domain.HabitTracker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

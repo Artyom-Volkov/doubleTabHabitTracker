@@ -11,7 +11,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class HabitRepositoryModule(private val context: Context) {
+class HabitRepositoryModule() {
 
     @Provides
     fun provideHabitRepository(networkClient: HabitTrackerNetworkClient, habitDAO: HabitDAO): HabitRepositoryI
@@ -23,7 +23,7 @@ class HabitRepositoryModule(private val context: Context) {
 
     @Singleton
     @Provides
-    fun provideHabitDAO(): HabitDAO{
+    fun provideHabitDAO(context: Context): HabitDAO {
         return Room.databaseBuilder( context.applicationContext, HabitRoomDatabase::class.java, "habit_database")
             .allowMainThreadQueries()
             .build()

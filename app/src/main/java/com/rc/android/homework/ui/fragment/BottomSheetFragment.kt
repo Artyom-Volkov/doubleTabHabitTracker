@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.rc.android.habittracker.HabitTracker
 import com.rc.android.homework.HabitTrackerApplication
 import com.rc.android.homework.databinding.FragmentBottomSheetBinding
-import com.rc.android.homework.domain.HabitTracker
 import com.rc.android.homework.ui.fragment.habitListsFragment.HabitListsFragment
 import com.rc.android.homework.ui.viewmodels.HabitListsViewModel
 import com.rc.android.homework.ui.viewmodels.HabitListsViewModelFactory

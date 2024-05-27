@@ -1,8 +1,13 @@
 package com.rc.android.homework.ui.viewmodels
 
-import androidx.lifecycle.*
-import com.rc.android.homework.domain.Habit
-import com.rc.android.homework.domain.HabitTracker
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.rc.android.habittracker.Habit
+import com.rc.android.habittracker.HabitTracker
 import kotlinx.coroutines.launch
 
 class HabitListsViewModel(habitTracker: HabitTracker) : ViewModel() {

@@ -1,7 +1,7 @@
 package com.rc.android.homework
 
-import com.rc.android.homework.data.HabitRepositoryModule
-import com.rc.android.homework.domain.HabitTrackerModule
+import com.rc.android.habitrepository.HabitRepositoryModule
+import com.rc.android.habittracker.HabitTrackerModule
 import com.rc.android.homework.ui.HabitTrackerUIModule
 import com.rc.android.homework.ui.fragment.BottomSheetFragment
 import com.rc.android.homework.ui.fragment.HabitEditingFragment

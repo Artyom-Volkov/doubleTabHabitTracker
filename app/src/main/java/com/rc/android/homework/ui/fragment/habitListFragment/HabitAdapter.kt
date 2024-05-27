@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.rc.android.habittracker.Habit
 import com.rc.android.homework.databinding.HabitCardBinding
-import com.rc.android.homework.domain.Habit
 
 
 class HabitAdapter (

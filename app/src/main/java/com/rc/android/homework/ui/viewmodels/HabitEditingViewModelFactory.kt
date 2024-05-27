@@ -2,7 +2,7 @@ package com.rc.android.homework.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.rc.android.homework.domain.HabitTracker
+import com.rc.android.habittracker.HabitTracker
 
 class HabitEditingViewModelFactory(
     private val habitTracker: HabitTracker,

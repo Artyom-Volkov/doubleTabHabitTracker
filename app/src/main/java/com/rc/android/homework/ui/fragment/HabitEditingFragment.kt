@@ -9,11 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.rc.android.habittracker.Habit
+import com.rc.android.habittracker.HabitTracker
 import com.rc.android.homework.HabitTrackerApplication
 import com.rc.android.homework.R
 import com.rc.android.homework.databinding.FragmentHabitEditingBinding
-import com.rc.android.homework.domain.Habit
-import com.rc.android.homework.domain.HabitTracker
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModel
 import com.rc.android.homework.ui.viewmodels.HabitEditingViewModelFactory
 import javax.inject.Inject

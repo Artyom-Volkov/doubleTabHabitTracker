@@ -1,7 +1,7 @@
 package com.rc.android.homework.ui.viewmodels
 
-import com.rc.android.homework.domain.HabitFreq
-import com.rc.android.homework.domain.HabitTimePeriod
+import com.rc.android.habittracker.HabitFreq
+import com.rc.android.habittracker.HabitTimePeriod
 
 class HabitFreqEditing (habitFreq: HabitFreq?) {
 
