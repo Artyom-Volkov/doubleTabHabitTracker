@@ -2,11 +2,13 @@ package com.rc.android.habitrepository
 
 import com.rc.android.habitrepository.room.HabitDAO
 import com.rc.android.habitrepository.server.HabitTrackerNetworkClient
+import com.rc.android.habitrepository.server.capsule.HabitCapsule
 import com.rc.android.habitrepository.server.capsule.HabitDone
 import com.rc.android.habitrepository.server.capsule.HabitUID
 import com.rc.android.habittracker.Habit
 import com.rc.android.habittracker.HabitRepositoryI
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 import java.util.Date
 
@@ -15,12 +17,11 @@ class HabitRepository(private val networkClient: HabitTrackerNetworkClient,
                       private val habitDAO: HabitDAO): HabitRepositoryI {
 
     override val habits: Flow<List<Habit>>
-        get() = habitDAO.getAllHabits()
+        get() = habitDAO.getAllHabits().map { habitCapsules -> habitCapsules.map { it.toHabit() } }
 
-    init {
-    }
+    override fun getHabit(id: Int): Habit = getHabitCapsule(id).toHabit()
 
-    override fun getHabit(id: Int): Habit = habitDAO.getHabitById(id)
+    private fun getHabitCapsule(localID: Int) = habitDAO.getHabitById(localID)
 
     override suspend fun updateLocalDatabaseFromServer(){
 
@@ -28,7 +29,7 @@ class HabitRepository(private val networkClient: HabitTrackerNetworkClient,
 
         for (serverHabit in serverHabitList){
 
-            val localHabit: Habit? = habitDAO.getHabitByServerId(serverHabit.server_uid)//null если привычки нет в локальной базе данных
+            val localHabit: HabitCapsule? = habitDAO.getHabitByServerId(serverHabit.server_uid)//null если привычки нет в локальной базе данных
 
             localHabit?.let {
                 serverHabit.id = it.id//присваивание локального id, потому что сервер не хранит локальный id привычки
@@ -41,12 +42,18 @@ class HabitRepository(private val networkClient: HabitTrackerNetworkClient,
         }
     }
 
+    private fun getServerUID(localID: Int): String{
+        return getHabitCapsule(localID).server_uid
+    }
+
     override suspend fun add(habit: Habit){
 
-        try {
-            val habitUID: HabitUID = networkClient.addHabit(habit)
+        val habitCapsule = HabitCapsule(habit.copy(id = 0))
 
-            habitDAO.add(habit.copy(server_uid = habitUID.toString()))
+        try {
+            val habitServerUID: HabitUID = networkClient.addHabit(habitCapsule)
+
+            habitDAO.add(habitCapsule.copy(server_uid = habitServerUID.toString()))
         } catch (e: HttpException){
 
         }
@@ -54,20 +61,26 @@ class HabitRepository(private val networkClient: HabitTrackerNetworkClient,
 
     override suspend fun replace(habit: Habit){
 
-        try {
-            networkClient.replaceHabit(habit)
+        val serverUid = getServerUID(habit.id)
 
-            habitDAO.update(habit)
+        val habitCapsule = HabitCapsule(habit, serverUid)
+
+        try {
+            networkClient.replaceHabit(habitCapsule)
+
+            habitDAO.update(habitCapsule)
         } catch (e: HttpException){
 
         }
     }
 
-    override suspend fun habitDone(habit: Habit) {
+    override suspend fun habitDone(habitLocalId: Int) {
+
+        val serverUid = getServerUID(habitLocalId)
 
         val habitDone = HabitDone(
             date = Date().time,
-            uid = habit.server_uid
+            uid = serverUid
         )
 
         networkClient.habitDone(habitDone)

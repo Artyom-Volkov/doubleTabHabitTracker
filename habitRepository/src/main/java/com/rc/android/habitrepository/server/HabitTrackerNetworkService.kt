@@ -1,8 +1,8 @@
 package com.rc.android.habitrepository.server
 
+import com.rc.android.habitrepository.server.capsule.HabitCapsule
 import com.rc.android.habitrepository.server.capsule.HabitDone
 import com.rc.android.habitrepository.server.capsule.HabitUID
-import com.rc.android.habittracker.Habit
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,11 +21,11 @@ interface HabitTrackerNetworkService {
 
     @Headers("Authorization: $AUTHORIZATION_TOKEN")
     @GET("habit")
-    suspend fun getHabitList(): List<Habit>
+    suspend fun getHabitList(): List<HabitCapsule>
 
     @Headers("Authorization: $AUTHORIZATION_TOKEN")
     @PUT("habit")
-    suspend fun addHabit(@Body habit: Habit): HabitUID
+    suspend fun addHabit(@Body habit: HabitCapsule): HabitUID
 
     @Headers("Authorization: $AUTHORIZATION_TOKEN")
     @DELETE("habit")

@@ -14,5 +14,5 @@ interface HabitRepositoryI {
 
     suspend fun replace(habit: Habit)
 
-    suspend fun habitDone(habit: Habit)
+    suspend fun habitDone(habitLocalId: Int)
 }

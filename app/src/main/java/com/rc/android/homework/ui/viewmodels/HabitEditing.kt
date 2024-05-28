@@ -10,6 +10,7 @@ class HabitEditing (habit: Habit?) {
     var type: Habit.Type? = null
     var priority: Int? = null
     var freq: HabitFreqEditing = HabitFreqEditing(null)
+    lateinit var doneDatesList: List<Long>
 
     init {
         habit?.let {
@@ -18,6 +19,7 @@ class HabitEditing (habit: Habit?) {
             type = it.type
             priority = it.priority
             freq = HabitFreqEditing( it.freq)
+            doneDatesList = it.doneDateList
         }
 
     }
@@ -29,7 +31,7 @@ class HabitEditing (habit: Habit?) {
         val habitFreq: HabitFreq? = freq.toHabitFreq()
 
         if (name != null && type != null && priority!= null && habitFreq != null)
-            habit = Habit(name!!, decr!!, type!!, priority!!, habitFreq, -1 )
+            habit = Habit(name!!, decr!!, type!!, priority!!, habitFreq, -1, doneDatesList )
 
         return habit
     }

@@ -17,8 +17,6 @@ class HabitTracker(private val habitRepository: HabitRepositoryI) {
 
     suspend fun habitDone(habitId: Int) {
 
-        val habit = getHabit(habitId)
-
-        habitRepository.habitDone(habit)
+        habitRepository.habitDone(habitId)
     }
 }

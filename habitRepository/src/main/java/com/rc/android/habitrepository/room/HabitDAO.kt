@@ -6,27 +6,27 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.Update
-import com.rc.android.habittracker.Habit
+import com.rc.android.habitrepository.server.capsule.HabitCapsule
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HabitDAO {
 
     @Insert(onConflict = REPLACE)
-    suspend fun add(habit: Habit)
+    suspend fun add(habit: HabitCapsule)
 
     @Update
-    suspend fun update(habit: Habit)
+    suspend fun update(habit: HabitCapsule)
 
     @Delete
-    fun delete(habit: Habit)
+    fun delete(habit: HabitCapsule)
 
     @Query("SELECT * FROM habits")
-    fun getAllHabits(): Flow<List<Habit>>
+    fun getAllHabits(): Flow<List<HabitCapsule>>
 
     @Query("SELECT * FROM habits WHERE id=(:id)")
-    fun getHabitById(id: Int): Habit
+    fun getHabitById(id: Int): HabitCapsule
 
     @Query("SELECT * FROM habits WHERE server_uid=(:uid)")
-    suspend fun getHabitByServerId(uid: String): Habit?
+    suspend fun getHabitByServerId(uid: String): HabitCapsule?
 }

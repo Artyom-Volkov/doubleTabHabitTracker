@@ -77,9 +77,7 @@ class HabitEditingViewModel(
                 if (habitId == null){
                     addNewHabit(habit)
                 } else {
-                    habit.id = habitId
-                    habit.server_uid = habitTracker.getHabit(habitId).server_uid
-                    habitEdited(habit)
+                    habitEdited(habit.copy(id = habitId))
                 }
             }
         }

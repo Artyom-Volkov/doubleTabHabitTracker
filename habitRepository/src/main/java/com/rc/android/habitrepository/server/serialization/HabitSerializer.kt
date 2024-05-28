@@ -6,17 +6,19 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
+import com.rc.android.habitrepository.server.capsule.HabitCapsule
 import com.rc.android.habittracker.Habit
 import com.rc.android.habittracker.HabitFreq
 import com.rc.android.habittracker.HabitTimePeriod
 import java.lang.reflect.Type
 import java.util.Date
 
-class HabitSerializer : JsonSerializer<Habit>, JsonDeserializer<Habit> {
+class HabitSerializer : JsonSerializer<HabitCapsule>, JsonDeserializer<HabitCapsule> {
 
     companion object {
         private const val COUNT_JSON_KEY = "count"
         private const val DATE_JSON_KEY = "date"
+        private const val DONE_DATES_JSON_KEY = "done_dates"
         private const val DESCRIPTION_JSON_KEY = "description"
         private const val FREQUENCY_JSON_KEY = "frequency"
         private const val PRIORITY_JSON_KEY = "priority"
@@ -25,7 +27,7 @@ class HabitSerializer : JsonSerializer<Habit>, JsonDeserializer<Habit> {
         private const val UID_JSON_KEY = "uid"
     }
 
-    override fun serialize(habit: Habit, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
+    override fun serialize(habit: HabitCapsule, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
 
         val habitJson = JsonObject().apply {
             addProperty(COUNT_JSON_KEY, habit.freq.executionNumber)
@@ -46,10 +48,10 @@ class HabitSerializer : JsonSerializer<Habit>, JsonDeserializer<Habit> {
 
     private fun frequencySerialize(habitFreq: HabitFreq): Int = habitFreq.countTimePeriod * 10 + habitFreq.timePeriod.ordinal
 
-    override fun deserialize( json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Habit {
+    override fun deserialize( json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): HabitCapsule {
 
         json?.asJsonObject?.let {
-            val habit = Habit(
+            val habit = HabitCapsule(
                 name = it.get(TITLE_JSON_KEY).asString,
                 decr = it.get(DESCRIPTION_JSON_KEY).asString,
                 type = when (it.get(TYPE_JSON_KEY).asInt) {
@@ -62,6 +64,7 @@ class HabitSerializer : JsonSerializer<Habit>, JsonDeserializer<Habit> {
                 priority = it.get(PRIORITY_JSON_KEY).asInt,
                 freq = frequencyDeserialize(it),
                 -1,
+                done_dates = it.get(DONE_DATES_JSON_KEY).toString().drop(1).dropLast(1),
                 server_uid = it.get(UID_JSON_KEY).asString
             )
 

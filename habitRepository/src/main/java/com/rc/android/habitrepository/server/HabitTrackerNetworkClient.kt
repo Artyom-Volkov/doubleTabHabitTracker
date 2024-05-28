@@ -2,6 +2,7 @@ package com.rc.android.habitrepository.server
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.rc.android.habitrepository.server.capsule.HabitCapsule
 import com.rc.android.habitrepository.server.capsule.HabitDone
 import com.rc.android.habitrepository.server.capsule.HabitUID
 import com.rc.android.habitrepository.server.serialization.HabitDoneSerializer
@@ -9,7 +10,6 @@ import com.rc.android.habitrepository.server.serialization.HabitListDeserializer
 import com.rc.android.habitrepository.server.serialization.HabitSerializer
 import com.rc.android.habitrepository.server.serialization.HabitUIDDeserializer
 import com.rc.android.habitrepository.server.serialization.NullOnEmptyConverterFactory
-import com.rc.android.habittracker.Habit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -33,9 +33,9 @@ class HabitTrackerNetworkClient {
             })
             .build()
 
-        val habitItemListType: Type = object : TypeToken<ArrayList<Habit?>?>() {}.type
+        val habitItemListType: Type = object : TypeToken<ArrayList<HabitCapsule?>?>() {}.type
         val gson = GsonBuilder()
-            .registerTypeAdapter(Habit::class.java, HabitSerializer())
+            .registerTypeAdapter(HabitCapsule::class.java, HabitSerializer())
             .registerTypeAdapter(HabitDone::class.java, HabitDoneSerializer())
             .registerTypeAdapter(HabitUID::class.java, HabitUIDDeserializer())
             .registerTypeAdapter(habitItemListType, HabitListDeserializer())
@@ -51,15 +51,15 @@ class HabitTrackerNetworkClient {
         networkService = retrofit.create(HabitTrackerNetworkService::class.java)
     }
 
-    suspend fun getHabitList(): List<Habit>{
+    suspend fun getHabitList(): List<HabitCapsule>{
         return networkService.getHabitList()
     }
 
-    suspend fun addHabit(habit: Habit): HabitUID {
+    suspend fun addHabit(habit: HabitCapsule): HabitUID {
         return networkService.addHabit(habit)
     }
 
-    suspend fun replaceHabit(habit: Habit): HabitUID {
+    suspend fun replaceHabit(habit: HabitCapsule): HabitUID {
         return networkService.addHabit(habit)
     }
 
