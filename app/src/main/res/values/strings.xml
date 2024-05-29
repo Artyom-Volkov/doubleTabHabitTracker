@@ -61,4 +61,9 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+
+    <string name="usefull_habit_execution_limit_has_been_reached_message">You are breathtaking!</string>
+    <string name="usefull_habit_execution_limit_has_not_been_reached_message">Стоит выполнить ещё %s раз</string>
+    <string name="harmfull_habit_execution_limit_has_been_reached_message">Хватит это делать</string>
+    <string name="harmfull_habit_execution_limit_has_not_been_reached_message">Можете выполнить еще %s раз</string>
 </resources>

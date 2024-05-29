@@ -1,11 +1,24 @@
 package com.rc.android.habittracker
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.rc.android.habittracker.habitExecutionObserver.HabitExecutionObserver
 import kotlinx.coroutines.flow.Flow
 
 class HabitTracker(private val habitRepository: HabitRepositoryI) {
 
+    private val habitExecutionObserver = HabitExecutionObserver(::onHabitExecutionLimitHasBeenReached,
+        ::onHabitExecutionLimitHasNotBeenReached)
+
     val habits: Flow<List<Habit>>
         get() = habitRepository.habits
+
+    private val mutableHabitExecutionLimitHasBeenReachedMessage: MutableLiveData<Habit.Type> = MutableLiveData()
+    private val mutableHabitExecutionLimitHasNotBeenReached: MutableLiveData<HabitExecutionLimitHasNotBeenReachedMessage> = MutableLiveData()
+
+    val habitExecutionLimitHasBeenReachedMessage: LiveData<Habit.Type> = mutableHabitExecutionLimitHasBeenReachedMessage
+    val habitExecutionLimitHasNotBeenReached: LiveData<HabitExecutionLimitHasNotBeenReachedMessage>
+        = mutableHabitExecutionLimitHasNotBeenReached
 
     fun getHabit(id: Int): Habit = habitRepository.getHabit(id)
 
@@ -17,6 +30,19 @@ class HabitTracker(private val habitRepository: HabitRepositoryI) {
 
     suspend fun habitDone(habitId: Int) {
 
-        habitRepository.habitDone(habitId)
+        val habit: Habit = habitRepository.habitDone(habitId)
+
+        habitExecutionObserver.checkExecution(habit)
+    }
+
+    private fun onHabitExecutionLimitHasBeenReached(habitType: Habit.Type){
+        mutableHabitExecutionLimitHasBeenReachedMessage.postValue(habitType)
+    }
+
+    private fun onHabitExecutionLimitHasNotBeenReached(habitType: Habit.Type, remainingExecutionCount: Int){
+
+        val message = HabitExecutionLimitHasNotBeenReachedMessage(habitType, remainingExecutionCount)
+
+        mutableHabitExecutionLimitHasNotBeenReached.postValue(message)
     }
 }

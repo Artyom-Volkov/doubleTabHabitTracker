@@ -74,15 +74,25 @@ class HabitRepository(private val networkClient: HabitTrackerNetworkClient,
         }
     }
 
-    override suspend fun habitDone(habitLocalId: Int) {
+    override suspend fun habitDone(habitLocalId: Int): Habit {
 
         val serverUid = getServerUID(habitLocalId)
 
-        val habitDone = HabitDone(
-            date = Date().time,
-            uid = serverUid
-        )
+        val habitDone = HabitDone( date = Date().time, uid = serverUid )
 
-        networkClient.habitDone(habitDone)
+        try {
+            networkClient.habitDone(habitDone)
+
+            val oldHabitCapsule: HabitCapsule = getHabitCapsule(habitLocalId)
+            val newHabitCapsule: HabitCapsule = HabitCapsule.addDoneDate(oldHabitCapsule, habitDone.date)
+
+            habitDAO.update(newHabitCapsule)
+
+            return newHabitCapsule.toHabit()
+
+        } catch (e: HttpException){
+
+        }
+        return throw Exception()
     }
 }

@@ -19,6 +19,18 @@ data class HabitCapsule(
 
     @PrimaryKey(autoGenerate = true) var id: Int = 0
 
+    companion object{
+        fun addDoneDate(habitCapsula: HabitCapsule, date: Long): HabitCapsule{
+            var new_done_dates = date.toString()
+
+            if ( !habitCapsula.done_dates.isEmpty() )
+                new_done_dates = "," + new_done_dates
+            new_done_dates = habitCapsula.done_dates + new_done_dates
+
+            return habitCapsula.copy(done_dates = new_done_dates).apply { this.id = habitCapsula.id  }
+        }
+    }
+
     constructor(habit: Habit): this(habit, "")
 
     constructor(habit: Habit, server_uid: String): this(
