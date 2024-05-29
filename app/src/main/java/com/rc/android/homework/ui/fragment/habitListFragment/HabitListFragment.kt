@@ -89,18 +89,23 @@ class HabitListFragment : Fragment() {
             habitAdapter.setHabitList(filterList)
         }
 
-        habitTracker.habitExecutionLimitHasNotBeenReached.observe(viewLifecycleOwner){ message ->
-            val stringFormat = when(message.habitType){
-                Habit.Type.USEFULL -> getString(R.string.usefull_habit_execution_limit_has_not_been_reached_message)
-                Habit.Type.HARMFULL -> getString(R.string.harmfull_habit_execution_limit_has_not_been_reached_message)
-            }
-            val messageStr = String.format(stringFormat, message.remainingExecutionCount)
-            makeShortToast(messageStr)
+        habitTracker.habitExecutionLimitHasNotBeenReached.observe(viewLifecycleOwner){ event ->
+
+            event?.takeIf { userVisibleHint }?.getContentIfNotHandled()?.let{ message ->
+                val stringFormat = when(message.habitType){
+                    Habit.Type.USEFULL -> getString(R.string.usefull_habit_execution_limit_has_not_been_reached_message)
+                    Habit.Type.HARMFULL -> getString(R.string.harmfull_habit_execution_limit_has_not_been_reached_message)
+                }
+                val messageStr = String.format(stringFormat, message.remainingExecutionCount)
+                makeShortToast(messageStr)}
         }
-        habitTracker.habitExecutionLimitHasBeenReachedMessage.observe(viewLifecycleOwner){habitType ->
-            when(habitType){
-                Habit.Type.USEFULL -> makeShortToast(R.string.usefull_habit_execution_limit_has_been_reached_message)
-                Habit.Type.HARMFULL -> makeShortToast(R.string.harmfull_habit_execution_limit_has_been_reached_message)
+        habitTracker.habitExecutionLimitHasBeenReachedMessage.observe(viewLifecycleOwner){ event ->
+
+            event?.takeIf { userVisibleHint }?.getContentIfNotHandled()?.let { habitType ->
+                when(habitType){
+                    Habit.Type.USEFULL -> makeShortToast(R.string.usefull_habit_execution_limit_has_been_reached_message)
+                    Habit.Type.HARMFULL -> makeShortToast(R.string.harmfull_habit_execution_limit_has_been_reached_message)
+                }
             }
         }
 

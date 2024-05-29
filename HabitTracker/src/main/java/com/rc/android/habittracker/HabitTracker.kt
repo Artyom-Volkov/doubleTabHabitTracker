@@ -13,11 +13,12 @@ class HabitTracker(private val habitRepository: HabitRepositoryI) {
     val habits: Flow<List<Habit>>
         get() = habitRepository.habits
 
-    private val mutableHabitExecutionLimitHasBeenReachedMessage: MutableLiveData<Habit.Type> = MutableLiveData()
-    private val mutableHabitExecutionLimitHasNotBeenReached: MutableLiveData<HabitExecutionLimitHasNotBeenReachedMessage> = MutableLiveData()
+    private val mutableHabitExecutionLimitHasBeenReachedMessage: MutableLiveData<Event<Habit.Type>> = MutableLiveData()
+    private val mutableHabitExecutionLimitHasNotBeenReached:
+            MutableLiveData<Event<HabitExecutionLimitHasNotBeenReachedMessage>> = MutableLiveData()
 
-    val habitExecutionLimitHasBeenReachedMessage: LiveData<Habit.Type> = mutableHabitExecutionLimitHasBeenReachedMessage
-    val habitExecutionLimitHasNotBeenReached: LiveData<HabitExecutionLimitHasNotBeenReachedMessage>
+    val habitExecutionLimitHasBeenReachedMessage: LiveData<Event<Habit.Type>> = mutableHabitExecutionLimitHasBeenReachedMessage
+    val habitExecutionLimitHasNotBeenReached: LiveData<Event<HabitExecutionLimitHasNotBeenReachedMessage>>
         = mutableHabitExecutionLimitHasNotBeenReached
 
     fun getHabit(id: Int): Habit = habitRepository.getHabit(id)
@@ -36,13 +37,13 @@ class HabitTracker(private val habitRepository: HabitRepositoryI) {
     }
 
     private fun onHabitExecutionLimitHasBeenReached(habitType: Habit.Type){
-        mutableHabitExecutionLimitHasBeenReachedMessage.postValue(habitType)
+        mutableHabitExecutionLimitHasBeenReachedMessage.postValue( Event( habitType) )
     }
 
     private fun onHabitExecutionLimitHasNotBeenReached(habitType: Habit.Type, remainingExecutionCount: Int){
 
         val message = HabitExecutionLimitHasNotBeenReachedMessage(habitType, remainingExecutionCount)
 
-        mutableHabitExecutionLimitHasNotBeenReached.postValue(message)
+        mutableHabitExecutionLimitHasNotBeenReached.postValue( Event(message) )
     }
 }
