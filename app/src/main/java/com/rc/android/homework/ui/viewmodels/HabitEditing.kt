@@ -10,7 +10,7 @@ class HabitEditing (habit: Habit?) {
     var type: Habit.Type? = null
     var priority: Int? = null
     var freq: HabitFreqEditing = HabitFreqEditing(null)
-    lateinit var doneDatesList: List<Long>
+    var doneDatesList: List<Long> = emptyList()
 
     init {
         habit?.let {

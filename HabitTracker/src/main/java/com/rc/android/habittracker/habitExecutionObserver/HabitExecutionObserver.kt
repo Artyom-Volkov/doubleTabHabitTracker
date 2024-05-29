@@ -4,6 +4,7 @@ import com.rc.android.habittracker.Habit
 import com.rc.android.habittracker.HabitFreq
 import com.rc.android.habittracker.HabitTimePeriod
 import java.util.Calendar
+import java.util.Date
 import java.util.GregorianCalendar
 
 class HabitExecutionObserver(
@@ -14,10 +15,10 @@ class HabitExecutionObserver(
 
         val requiredHabitExecutionNumber = habit.freq.executionNumber
 
-        val dateList: MutableList<Calendar> =
+        val dateList: List<Date> =
             habit.doneDateList.map { timeInMillis ->
-                GregorianCalendar().apply { this.timeInMillis = timeInMillis }
-            }.toMutableList()
+                Date(timeInMillis)
+            }.toList()
 
         if (dateList.isEmpty()) {
             onHabitExecutionLimitHasNotBeenReached(habit.type, requiredHabitExecutionNumber)
@@ -26,12 +27,12 @@ class HabitExecutionObserver(
 
         val lastDoneDate = dateList[dateList.size - 1]
 
-        val calculatedPeriodStart = getCalculatedPeriodStart(lastDoneDate, habit.freq).time
+        val calculatedPeriodStart = getCalculatedPeriodStart(lastDoneDate, habit.freq)
 
-        dateList.filter {
-            dateTime -> dateTime.time.after(calculatedPeriodStart)
+        val filterDateList = dateList.filter {
+            dateTime -> dateTime.after(calculatedPeriodStart)
         }
-        val habitExecutionNumber = dateList.size
+        val habitExecutionNumber = filterDateList.size
 
         if (habitExecutionNumber >= requiredHabitExecutionNumber){
             onHabitExecutionLimitHasBeenReached(habit.type)
@@ -40,19 +41,22 @@ class HabitExecutionObserver(
         }
     }
 
-    private fun getCalculatedPeriodStart(lastDoneDate: Calendar, habitFreq: HabitFreq): Calendar{
-        val lastDoneDateCopy = GregorianCalendar().apply { timeInMillis = lastDoneDate.timeInMillis }
+    private fun getCalculatedPeriodStart(lastDoneDate: Date, habitFreq: HabitFreq): Date{
+        val lastDoneDateCalender = GregorianCalendar().apply { timeInMillis = lastDoneDate.time }
 
         habitFreq.let{
+
+            val rv = 5
+
             when (it.timePeriod){
-                HabitTimePeriod.MINUTE -> lastDoneDateCopy.add(Calendar.MINUTE, - it.countTimePeriod)
-                HabitTimePeriod.HOUR -> lastDoneDateCopy.add(Calendar.HOUR, - it.countTimePeriod)
-                HabitTimePeriod.DAY -> lastDoneDateCopy.add(Calendar.DAY_OF_YEAR, - it.countTimePeriod)
-                HabitTimePeriod.WEEK -> lastDoneDateCopy.add(Calendar.WEEK_OF_YEAR, - it.countTimePeriod)
-                HabitTimePeriod.MONTH -> lastDoneDateCopy.add(Calendar.MONTH, - it.countTimePeriod)
-                HabitTimePeriod.YEAR -> lastDoneDateCopy.add(Calendar.YEAR, - it.countTimePeriod)
+                HabitTimePeriod.MINUTE -> lastDoneDateCalender.add(Calendar.MINUTE, - it.countTimePeriod)
+                HabitTimePeriod.HOUR -> lastDoneDateCalender.add(Calendar.HOUR, - it.countTimePeriod)
+                HabitTimePeriod.DAY -> lastDoneDateCalender.add(Calendar.DAY_OF_YEAR, - it.countTimePeriod)
+                HabitTimePeriod.WEEK -> lastDoneDateCalender.add(Calendar.WEEK_OF_YEAR, - it.countTimePeriod)
+                HabitTimePeriod.MONTH -> lastDoneDateCalender.add(Calendar.MONTH, - it.countTimePeriod)
+                HabitTimePeriod.YEAR -> lastDoneDateCalender.add(Calendar.YEAR, - it.countTimePeriod)
             }
         }
-        return lastDoneDateCopy
+        return lastDoneDateCalender.time
     }
 }

@@ -15,9 +15,8 @@ data class HabitCapsule(
     @Embedded val freq: HabitFreq,
     val color: Int,
     val done_dates: String,
-    val server_uid: String) {
-
-    @PrimaryKey(autoGenerate = true) var id: Int = 0
+    val server_uid: String,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0) {
 
     companion object{
         fun addDoneDate(habitCapsula: HabitCapsule, date: Long): HabitCapsule{
@@ -27,7 +26,7 @@ data class HabitCapsule(
                 new_done_dates = "," + new_done_dates
             new_done_dates = habitCapsula.done_dates + new_done_dates
 
-            return habitCapsula.copy(done_dates = new_done_dates).apply { this.id = habitCapsula.id  }
+            return habitCapsula.copy(done_dates = new_done_dates)//.apply { this.id = habitCapsula.id  }
         }
     }
 
@@ -41,7 +40,8 @@ data class HabitCapsule(
         freq = habit.freq,
         color = habit.color,
         done_dates = habit.doneDateList.joinToString(","),
-        server_uid = server_uid
+        server_uid = server_uid,
+        id = habit.id
     )
 
     fun toHabit(): Habit{
